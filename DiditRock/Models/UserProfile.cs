@@ -31,14 +31,9 @@ namespace DiditRock.Models
 
         public DateTime CreateDateTime { get; set; }
 
-        [DataType(DataType.Url)]
-        [MaxLength(255)]
-        public string ImageLocation { get; set; }
-
         [Required]
         public int UserTypeId { get; set; }
-
-        public bool IsActive { get; set; }
+        public UserType UserType { get; set; }
 
         public string FullName
         {

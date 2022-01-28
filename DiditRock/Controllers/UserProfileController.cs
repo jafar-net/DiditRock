@@ -1,7 +1,7 @@
-﻿using DiditRock.Repositories;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using DiditRock.Models;
+using DiditRock.Repositories;
 
 namespace DiditRock.Controllers
 {
@@ -37,15 +37,6 @@ namespace DiditRock.Controllers
         public IActionResult DoesUserExist(string firebaseUserId)
         {
             var userProfile = _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
-            if (userProfile == null)
-            {
-                return NotFound();
-            }
-
-            else if (userProfile.IsActive != true)
-            {
-                return NotFound();
-            }
 
             return Ok();
         }
@@ -53,8 +44,8 @@ namespace DiditRock.Controllers
         [HttpPost]
         public IActionResult Post(UserProfile userProfile)
         {
-            userProfile.IsActive = true;
             userProfile.CreateDateTime = DateTime.Now;
+            userProfile.UserTypeId = UserType.AUTHOR_ID;
             _userProfileRepository.Add(userProfile);
             return CreatedAtAction(
                 nameof(GetUserProfile),
@@ -62,37 +53,35 @@ namespace DiditRock.Controllers
                 userProfile);
         }
 
-        [HttpPut("ReactivateUserProfile")]
-        public ActionResult ReactivateUser(int id)
+        [HttpPut("UpdateUserType2/userId")]
+        public ActionResult UpdateUserType2(int id)
         {
             UserProfile userProfile = _userProfileRepository.GetUserProfileId(id);
 
-            userProfile.IsActive = true;
-            _userProfileRepository.ReactivateAndDeactivate(userProfile);
+            userProfile.UserTypeId = 2;
 
             return Ok();
 
 
         }
 
-
-
-
-        [HttpPut("DeactivateUserProfile")]
-        public ActionResult DeactivateUser(int id)
+        [HttpPut("UpdateUserType1/userId")]
+        public ActionResult UpdateUserType1(int id)
         {
             UserProfile userProfile = _userProfileRepository.GetUserProfileId(id);
 
-            userProfile.IsActive = false;
-            _userProfileRepository.ReactivateAndDeactivate(userProfile);
+            userProfile.UserTypeId = 1;
 
             return Ok();
 
 
         }
 
-
-
+        [HttpGet("GetUserTypes")]
+        public IActionResult AllUserTypes()
+        {
+            return Ok(_userProfileRepository.AllUserTypes());
+        }
 
     }
 }

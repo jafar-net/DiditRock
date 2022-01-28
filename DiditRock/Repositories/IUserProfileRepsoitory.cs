@@ -8,9 +8,9 @@ namespace DiditRock.Repositories
         void Add(UserProfile userProfile);
         UserProfile GetByFirebaseUserId(string firebaseUserId);
         List<UserProfile> GetAllUsers();
-        void ReactivateAndDeactivate(UserProfile userProfile);
         UserProfile GetUserProfileId(int id);
-
+        void UpdateUserTypeId(int userTypeId, int userId);
         UserProfile GetUserProfileById(int id);
+        List<UserType> AllUserTypes();
     }
 }

@@ -1,9 +1,9 @@
-﻿using DiditRock.Models;
-using DiditRock.Utils;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using DiditRock.Models;
+using DiditRock.Utils;
 
 namespace DiditRock.Repositories
 {
@@ -22,7 +22,7 @@ namespace DiditRock.Repositories
                 {
                     cmd.CommandText = @"
                        SELECT u.id, u.FirebaseUserId, u.FirstName, u.LastName, u.DisplayName, u.Email,
-                              u.CreateDateTime, u.ImageLocation, u.UserTypeId, u.IsActive,
+                              u.CreateDateTime, u.UserTypeId,
                               ut.[Name] AS UserTypeName
                          FROM UserProfile u
                               LEFT JOIN UserType ut ON u.UserTypeId = ut.id
@@ -43,9 +43,12 @@ namespace DiditRock.Repositories
                             LastName = reader.GetString(reader.GetOrdinal("LastName")),
                             DisplayName = reader.GetString(reader.GetOrdinal("DisplayName")),
                             CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
-                            ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
-                            IsActive = reader.GetBoolean(reader.GetOrdinal("IsActive")),
-      
+                            UserTypeId = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
+                            UserType = new UserType()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
+                                Name = reader.GetString(reader.GetOrdinal("UserTypeName"))
+                            },
                         };
 
                     }
@@ -68,8 +71,8 @@ namespace DiditRock.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT up.Id, Up.FirebaseUserId, up.FirstName, up.LastName, up.DisplayName, up.IsActive,  
-                               up.Email, up.CreateDateTime, up.ImageLocation, up.UserTypeId,
+                        SELECT up.Id, Up.FirebaseUserId, up.FirstName, up.LastName, up.DisplayName,  
+                               up.Email, up.CreateDateTime, up.UserTypeId,
                                ut.Name AS UserTypeName
                           FROM UserProfile up
                                LEFT JOIN UserType ut on up.UserTypeId = ut.Id
@@ -91,8 +94,12 @@ namespace DiditRock.Repositories
                             DisplayName = DbUtils.GetString(reader, "DisplayName"),
                             Email = DbUtils.GetString(reader, "Email"),
                             CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
-                            ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
-                            IsActive = DbUtils.GetBool(reader, "IsActive")
+                            UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                            UserType = new UserType()
+                            {
+                                Id = DbUtils.GetInt(reader, "UserTypeId"),
+                                Name = DbUtils.GetString(reader, "UserTypeName"),
+                            }
                         };
                     }
                     reader.Close();
@@ -115,25 +122,23 @@ namespace DiditRock.Repositories
                     
               ";
 
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    using SqlDataReader reader = cmd.ExecuteReader();
+
+                    var users = new List<UserProfile>();
+                    while (reader.Read())
                     {
-
-                        var users = new List<UserProfile>();
-                        while (reader.Read())
+                        users.Add(new UserProfile()
                         {
-                            users.Add(new UserProfile()
-                            {
-                                Id = DbUtils.GetInt(reader, "Id"),
-                                DisplayName = DbUtils.GetString(reader, "DisplayName"),
-                                FirstName = DbUtils.GetString(reader, "FirstName"),
-                                LastName = DbUtils.GetString(reader, "LastName"),
-                                UserTypeId = DbUtils.GetInt(reader, "UserTypeId")
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                            FirstName = DbUtils.GetString(reader, "FirstName"),
+                            LastName = DbUtils.GetString(reader, "LastName"),
+                            UserTypeId = DbUtils.GetInt(reader, "UserTypeId")
 
-                            });
-                        }
-
-                        return users;
+                        });
                     }
+
+                    return users;
                 }
             }
         }
@@ -146,9 +151,10 @@ namespace DiditRock.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        select Id, DisplayName,  Email, FirstName, LastName, FirebaseUserId, CreateDateTime, ImageLocation, UserTypeId
-                        from UserProfile
-                        Where Id = @Id
+                        select up.Id, up.DisplayName,  up.Email, up.FirstName, up.LastName, up.FirebaseUserId, up.CreateDateTime, up.UserTypeId, ut.Id  typeId, ut.Name  typeName
+                        from UserProfile up
+                        left join UserType ut on up.UserTypeId = ut.Id
+                        Where up.Id = @Id
                     ";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
@@ -168,7 +174,13 @@ namespace DiditRock.Repositories
                                 LastName = DbUtils.GetString(reader, "LastName"),
                                 FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
                                 CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
-                                UserTypeId = DbUtils.GetInt(reader, "UserTypeId")
+                                UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                                UserType = new UserType
+                                {
+                                    Id = DbUtils.GetInt(reader, "typeId"),
+                                    Name = DbUtils.GetString(reader, "typeName")
+
+                                }
 
                             };
 
@@ -190,17 +202,16 @@ namespace DiditRock.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"INSERT INTO UserProfile (FirebaseUserId, FirstName, LastName, DisplayName, 
-                                                                 Email, CreateDateTime, ImageLocation, UserTypeId)
+                                                                 Email, CreateDateTime, UserTypeId)
                                         OUTPUT INSERTED.ID
                                         VALUES (@FirebaseUserId, @FirstName, @LastName, @DisplayName, 
-                                                @Email, @CreateDateTime, @ImageLocation, @UserTypeId)";
+                                                @Email, @CreateDateTime, @UserTypeId)";
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", userProfile.FirebaseUserId);
                     DbUtils.AddParameter(cmd, "@FirstName", userProfile.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);
                     DbUtils.AddParameter(cmd, "@DisplayName", userProfile.DisplayName);
                     DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
                     DbUtils.AddParameter(cmd, "@CreateDateTime", userProfile.CreateDateTime);
-                    DbUtils.AddParameter(cmd, "@ImageLocation", userProfile.ImageLocation);
                     DbUtils.AddParameter(cmd, "@UserTypeId", userProfile.UserTypeId);
 
                     userProfile.Id = (int)cmd.ExecuteScalar();
@@ -208,72 +219,60 @@ namespace DiditRock.Repositories
             }
         }
 
-
-
-        public void ReactivateAndDeactivate(UserProfile userProfile)
+        public List<UserType> AllUserTypes()
         {
-            using (SqlConnection conn = Connection)
+            using (var conn = Connection)
             {
                 conn.Open();
 
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                            UPDATE UserProfile
-                            SET 
-                                DisplayName = @displayName, 
-                                FirstName = @firstName, 
-                                LastName = @lastName, 
-                                Email = @email,
-                                CreateDateTime = @createDateTime,
-                                ImageLocation = @imageLocation,
-                                IsActive = @isActive,
-                                UserTypeId = @userTypeId
-                           WHERE Id = @id";
+                        select * from UserType
+                        
+                    ";
 
-                    cmd.Parameters.AddWithValue("@displayName", userProfile.DisplayName);
-                    cmd.Parameters.AddWithValue("@firstName", userProfile.FirstName);
-                    cmd.Parameters.AddWithValue("@lastName", userProfile.LastName);
-                    cmd.Parameters.AddWithValue("@email", userProfile.Email);
-                    cmd.Parameters.AddWithValue("@createDateTime", userProfile.CreateDateTime);
-                    if (userProfile.ImageLocation == null)
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        cmd.Parameters.AddWithValue("@imagelocation", DBNull.Value);
+                        var userTypes = new List<UserType>();
+
+                        while (reader.Read())
+                        {
+
+                            userTypes.Add(new UserType()
+                            {
+                                Id = DbUtils.GetInt(reader, "Id"),
+                                Name = DbUtils.GetString(reader, "Name")
+                            });
+
+                        }
+                        return userTypes;
+
                     }
-                    else
-                    {
-                        cmd.Parameters.AddWithValue("@imageLocation", userProfile.ImageLocation);
-                    }
-                    cmd.Parameters.AddWithValue("@isActive", userProfile.IsActive);
-                    cmd.Parameters.AddWithValue("@userTypeId", userProfile.UserTypeId);
-                    cmd.Parameters.AddWithValue("@id", userProfile.Id);
-
-
-
-
-
-                    cmd.ExecuteNonQuery();
-
                 }
             }
 
         }
 
-
-
-        /*
-        public UserProfile GetByFirebaseUserId(string firebaseUserId)
+        public void UpdateUserTypeId(int userTypeId, int userId)
         {
-            return _context.UserProfile
-                       .Include(up => up.UserType) 
-                       .FirstOrDefault(up => up.FirebaseUserId == firebaseUserId);
-        }
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
 
-        public void Add(UserProfile userProfile)
-        {
-            _context.Add(userProfile);
-            _context.SaveChanges();
+
+                    cmd.CommandText = @"UPDATE UserProfile 
+                                           SET UserTypeId = @userTypeId
+                                         WHERE id = @id";
+
+                    cmd.Parameters.AddWithValue("@userTypeId", userTypeId);
+                    cmd.Parameters.AddWithValue("@id", userId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
-        */
     }
 }
