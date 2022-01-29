@@ -15,8 +15,10 @@ namespace DiditRock.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT * FROM Concert
-                                       ORDER BY Name";
+                    cmd.CommandText = @"SELECT c.Id, c.Name, c.EncoreSongs, c.VenueId, c.Genre, c.Date, v.Name
+                                        FROM CONCERT c
+                                        LEFT JOIN VENUE v ON v.Id = c.VenueId
+                                        ORDER BY c.Date ASC";
 
                     var concerts = new List<Concert>();
 
@@ -27,7 +29,15 @@ namespace DiditRock.Repositories
                             var concert = new Concert
                             {
                                 Id = DbUtils.GetInt(reader, "Id"),
-                                Name = DbUtils.GetString(reader, "Name")
+                                EncoreSongs = DbUtils.GetString(reader, "EncoreSongs"),
+                                Date = reader.GetDateTime(reader.GetOrdinal("Date")),
+                                VenueId = DbUtils.GetInt(reader, "Venue"),
+                                Venue = new Venue()
+                                {
+                                    Id = DbUtils.GetInt(reader, "VenueId"),
+                                    Name = DbUtils.GetString(reader, "Name")
+                                },
+                                Genre = DbUtils.GetString(reader, "Genre")
                             };
                             concerts.Add(concert);
                         }
