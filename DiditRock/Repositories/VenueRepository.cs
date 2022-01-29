@@ -27,7 +27,11 @@ namespace DiditRock.Repositories
                             var venue = new Venue
                             {
                                 Id = DbUtils.GetInt(reader, "Id"),
-                                Name = DbUtils.GetString(reader, "Name")
+                                Name = DbUtils.GetString(reader, "Name"),
+                                Location = DbUtils.GetString(reader, "Location"),
+                                UpcomingShows = DbUtils.GetString(reader, "UpcomingShows"),
+                                VenueType = DbUtils.GetString(reader, "VenueType"),
+                                Capacity = DbUtils.GetInt(reader, "Capacity"),
                             };
                             venues.Add(venue);
                         }
@@ -52,7 +56,15 @@ namespace DiditRock.Repositories
                     {
                         if (reader.Read())
                         {
-                            venue = new Venue { Id = id, Name = DbUtils.GetString(reader, "Name") };
+                            venue = new Venue
+                            {
+                                Id = DbUtils.GetInt(reader, "Id"),
+                                Name = DbUtils.GetString(reader, "Name"),
+                                Location = DbUtils.GetString(reader, "Location"),
+                                UpcomingShows = DbUtils.GetString(reader, "UpcomingShows"),
+                                VenueType = DbUtils.GetString(reader, "VenueType"),
+                                Capacity = DbUtils.GetInt(reader, "Capacity"),
+                            };
                         }
                     }
                     return venue;
@@ -66,11 +78,15 @@ namespace DiditRock.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Venue (Name)
+                    cmd.CommandText = @"INSERT INTO Venue (Name, Location, UpcomingShows, VenueType, Capacity)
                                         OUTPUT INSERTED.Id
-                                        VALUES (@Name)";
+                                        VALUES (@Name, @Location, @UpcomingShows, @VenueType, @Capacity)";
 
                     DbUtils.AddParameter(cmd, "@Name", venue.Name);
+                    DbUtils.AddParameter(cmd, "@Location", venue.Location);
+                    DbUtils.AddParameter(cmd, "@UpcomingShows", venue.UpcomingShows);
+                    DbUtils.AddParameter(cmd, "@VenueType", venue.VenueType);
+                    DbUtils.AddParameter(cmd, "@Capacity", venue.Capacity);
 
                     venue.Id = (int)cmd.ExecuteScalar();
                 }
@@ -84,25 +100,36 @@ namespace DiditRock.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"UPDATE TAG SET Name = @name WHERE Id = @id";
+                    cmd.CommandText = @"UPDATE Venue SET 
+                                        Name = @name,
+                                        Location = @location,
+                                        UpcomingShows = @upcomingShows,
+                                        Capacity = @capacity,
+                                        VenueType = @venueType
+                                        WHERE Id = @id";
 
                     DbUtils.AddParameter(cmd, "@name", venue.Name);
+                    DbUtils.AddParameter(cmd, "@location", venue.Location);
+                    DbUtils.AddParameter(cmd, "@upcomingShows", venue.UpcomingShows);
+                    DbUtils.AddParameter(cmd, "@capacity", venue.Capacity);
+                    DbUtils.AddParameter(cmd, "@venueType", venue.VenueType);
                     DbUtils.AddParameter(cmd, "@id", venue.Id);
 
                     cmd.ExecuteNonQuery();
                 }
             }
         }
-        public void Delete(int id)
+
+        public void Delete(int Id)
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"DELETE FROM TAG
-                                        WHERE Id = @id";
-                    DbUtils.AddParameter(cmd, "id", id);
+                    cmd.CommandText = @"DELETE FROM VENUE
+                                        WHERE Id = @Id";
+                    DbUtils.AddParameter(cmd, "Id", Id);
 
                     cmd.ExecuteNonQuery();
                 }
