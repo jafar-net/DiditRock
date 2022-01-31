@@ -17,32 +17,30 @@ namespace DiditRock.Repositories
                 {
                     cmd.CommandText = @"SELECT c.Id, c.Name, c.EncoreSongs, c.VenueId, c.Genre, c.Date, v.Name
                                         FROM CONCERT c
-                                        LEFT JOIN VENUE v ON v.Id = c.VenueId
+                                        JOIN VENUE v ON c.VenueId = v.Id
                                         ORDER BY c.Date ASC";
-
                     var concerts = new List<Concert>();
 
                     using (var reader = cmd.ExecuteReader())
-                    {
+
                         while (reader.Read())
                         {
                             var concert = new Concert
                             {
                                 Id = DbUtils.GetInt(reader, "Id"),
+                                Name = DbUtils.GetString(reader, "Name"),
                                 EncoreSongs = DbUtils.GetString(reader, "EncoreSongs"),
-                                Date = reader.GetDateTime(reader.GetOrdinal("Date")),
-                                VenueId = DbUtils.GetInt(reader, "Venue"),
+                                Genre = DbUtils.GetString(reader, "Genre"),
+                                Date = DbUtils.GetDateTime(reader, "Date"),
+                                VenueId = DbUtils.GetInt(reader, "VenueId"),
                                 Venue = new Venue()
                                 {
                                     Id = DbUtils.GetInt(reader, "VenueId"),
                                     Name = DbUtils.GetString(reader, "Name")
-                                },
-                                Genre = DbUtils.GetString(reader, "Genre")
+                                }
                             };
                             concerts.Add(concert);
                         }
-
-                    }
                     return concerts;
                 }
             }
@@ -54,21 +52,39 @@ namespace DiditRock.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT * FROM Concert
-                                        WHERE Id = @id";
-                    DbUtils.AddParameter(cmd, "@id", id);
+                    cmd.CommandText = @"SELECT c.Id, c.Name, c.EncoreSongs, c.VenueId, c.Genre, c.Date, v.Name
+                                        FROM CONCERT c
+                                        JOIN VENUE v ON c.VenueId = v.Id
+                                        ORDER BY c.Date ASC";
+                    DbUtils.AddParameter(cmd, "@Id", id);
+                    var reader = cmd.ExecuteReader();
+
                     Concert concert = null;
-                    using (var reader = cmd.ExecuteReader())
+                    if (reader.Read())
                     {
-                        if (reader.Read())
+                        concert = new Concert()
                         {
-                            concert = new Concert { Id = id, Name = DbUtils.GetString(reader, "Name") };
-                        }
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Name = DbUtils.GetString(reader, "Name"),
+                            EncoreSongs = DbUtils.GetString(reader, "EncoreSongs"),
+                            Genre = DbUtils.GetString(reader, "Genre"),
+                            Date = DbUtils.GetDateTime(reader, "Date"),
+                            VenueId = DbUtils.GetInt(reader, "VenueId"),
+                            Venue = new Venue()
+                            {
+                                Id = DbUtils.GetInt(reader, "VenueId"),
+                                Name = DbUtils.GetString(reader, "Name")
+                            }
+
+                        };
                     }
+                    reader.Close();
+
                     return concert;
                 }
             }
         }
+
         public void Add(Concert concert)
         {
             using (var conn = Connection)
@@ -76,11 +92,15 @@ namespace DiditRock.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Concert (Name)
+                    cmd.CommandText = @"INSERT INTO Concert (Name, EncoreSongs, Genre, Date, VenueId)
                                         OUTPUT INSERTED.Id
-                                        VALUES (@Name)";
+                                        VALUES (@Name, @EncoreSongs, @Genre, @Date, @VenueId)";
 
                     DbUtils.AddParameter(cmd, "@Name", concert.Name);
+                    DbUtils.AddParameter(cmd, "@EncoreSongs", concert.EncoreSongs);
+                    DbUtils.AddParameter(cmd, "@Genre", concert.Genre);
+                    DbUtils.AddParameter(cmd, "@Date", concert.Date);
+                    DbUtils.AddParameter(cmd, "@VenueId", concert.VenueId);
 
                     concert.Id = (int)cmd.ExecuteScalar();
                 }
@@ -94,10 +114,16 @@ namespace DiditRock.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"UPDATE CONCERT SET Name = @name WHERE Id = @id";
+                    cmd.CommandText = @"UPDATE CONCERT 
+                                        SET Name = @name, EncoreSongs = @EncoreSongs, Genre = @Genre, Date = @Date, VenueId = @VenueId 
+                                        WHERE Id = @id";
 
-                    DbUtils.AddParameter(cmd, "@name", concert.Name);
                     DbUtils.AddParameter(cmd, "@id", concert.Id);
+                    DbUtils.AddParameter(cmd, "@Name", concert.Name);
+                    DbUtils.AddParameter(cmd, "@EncoreSongs", concert.EncoreSongs);
+                    DbUtils.AddParameter(cmd, "@Genre", concert.Genre);
+                    DbUtils.AddParameter(cmd, "@Date", concert.Date);
+                    DbUtils.AddParameter(cmd, "@VenueId", concert.VenueId);
 
                     cmd.ExecuteNonQuery();
                 }
