@@ -18,9 +18,9 @@ values (1, 'Marathon Music Works', '1402 Clinton St, Nashville, TN 37203', 1700,
 set identity_insert [Venue] off
 
 set identity_insert [Concert] on
-insert into [Concert] ([Id], [Name], [Genre], [EncoreSongs], [Date])
-values (1, 'Tove Lo: The Sunshine Kitty Tour', 'Alternative/Indie', 'Habits (Stay High), Sweettalk My Heart, and Bikini Porn', '2020-02-03'), (2, 'Lovenoise Presents: Nas with the Nashville Symphony', 'Hip Hop', 'n/a', '2021-09-12'), (3, 'James Taylor and his All-Star Band with Special Guest
-Jackson Browne', 'Southern Rock', 'Take it Easy and Youve Got a Friend', '2021-08-16'), (4, 'The Front Bottoms 20201 Tour', 'Indie Rock', 'Flashlight, Leaf Pile, and Twelve Feet Deep', '2021-09-24'), (5, 'RKS: Crimbo Limbo', 'Indie Rock', 'When it Lands and Its Called: Freefall', '2021-12-26')
+insert into [Concert] ([Id], [Name], [Genre], [EncoreSongs], [Date], [VenueId])
+values (1, 'Tove Lo: The Sunshine Kitty Tour', 'Alternative/Indie', 'Habits (Stay High), Sweettalk My Heart, and Bikini Porn', '2020-02-03', 1), (2, 'Lovenoise Presents: Nas with the Nashville Symphony', 'Hip Hop', 'n/a', '2021-09-12', 2), (3, 'James Taylor and his All-Star Band with Special Guest
+Jackson Browne', 'Southern Rock', 'Take it Easy and Youve Got a Friend', '2021-08-16', 3), (4, 'The Front Bottoms 20201 Tour', 'Indie Rock', 'Flashlight, Leaf Pile, and Twelve Feet Deep', '2021-09-24', 4), (5, 'RKS: Crimbo Limbo', 'Indie Rock', 'When it Lands and Its Called: Freefall', '2021-12-26', 4)
 set identity_insert [Concert] off
 
 set identity_insert [User] on

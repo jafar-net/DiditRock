@@ -1,80 +1,141 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using DiditRock.Models;
 using DiditRock.Utils;
-
-
 
 namespace DiditRock.Repositories
 {
     public class ConcertArtistRepository : BaseRepository, IConcertArtistRepository
     {
-        public ConcertArtistRepository(IConfiguration configuration) : base(configuration) { }
+        public ConcertArtistRepository(IConfiguration config) : base(config) { }
 
-        public List<ConcertArtist> Get(int concertId)
+        public List<ConcertArtist> GetAllConcertArtistsForConcert(int id)
         {
-            using (var conn = Connection)
+            using (SqlConnection conn = Connection)
             {
                 conn.Open();
-                using (var cmd = conn.CreateCommand())
+                using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT pt.*, t.Name FROM ConcertArtist pt JOIN Artist t ON pt.ArtistId = t.Id
-                                        WHERE ConcertId = @concertId";
+                    cmd.CommandText = @"
+                    SELECT  ca.Id, ca.ConcertId, ca.ArtistId, t.Name AS ArtistName
+                    FROM
+	                ConcertArtist ca
+	                LEFT JOIN Artist t ON ca.ArtistId = t.Id
+                    WHERE
+	                ca.ConcertId = @Id
+                    ";
 
-                    DbUtils.AddParameter(cmd, "@concertId", concertId);
+                    DbUtils.AddParameter(cmd, "@ConcertId", id);
 
-                    List<ConcertArtist> concertArtists = new List<ConcertArtist>();
+                    var reader = cmd.ExecuteReader();
 
-                    using (var reader = cmd.ExecuteReader())
+                    var concertArtists = new List<ConcertArtist>();
+                    while (reader.Read())
                     {
-                        while (reader.Read())
+                        concertArtists.Add(new ConcertArtist()
                         {
-                            concertArtists.Add(new ConcertArtist
+                            Id = DbUtils.GetInt(reader, "ConcertArtistId"),
+
+                            ConcertId = id,
+                            Concert = new Concert()
                             {
-                                ConcertId = concertId,
-                                ArtistId = DbUtils.GetInt(reader, "ArtistId"),
-                                ArtistName = DbUtils.GetString(reader, "Name")
-                            });
-                        }
+                                //Id = DbUtils.GetInt(reader, "ConcertId"),
+                                //Title = DbUtils.GetString(reader, "ConcertTitle"),
+                                //Content = DbUtils.GetString(reader, "Content"),
+                                //ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+                                //PublishDateTime = DbUtils.GetDateTime(reader, "PublishDateTime").ToString("MM/dd/yyyy"),
+                                //CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                            },
+
+                            ArtistId = DbUtils.GetInt(reader, "ArtistId"),
+                            Artist = new Artist()
+                            {
+                                Id = DbUtils.GetInt(reader, "ArtistId"),
+                                Name = DbUtils.GetString(reader, "ArtistName")
+                            }
+                        });
                     }
+
+                    reader.Close();
                     return concertArtists;
                 }
+
             }
         }
+
+
+        public ConcertArtist GetConcertArtistById(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            SELECT Id
+                            FROM ConcertArtist
+                            WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        ConcertArtist concertArtist = new ConcertArtist()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id"))
+                        };
+                        reader.Close();
+                        return concertArtist;
+                    }
+                    reader.Close();
+                    return null;
+                }
+            }
+        }
+
         public void Add(ConcertArtist concertArtist)
         {
-            using (var conn = Connection)
+            using (SqlConnection conn = Connection)
             {
                 conn.Open();
-                using (var cmd = conn.CreateCommand())
+                using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO ConcertArtist (ConcertId, ArtistId)
-                                        OUTPUT INSERTED.Id
-                                        VALUES (@concertId, @artistId)";
+                    cmd.CommandText = @"
+                        INSERT INTO ConcertArtist(ConcertId, ArtistId)
+                        OUTPUT INSERTED.ID
+                        VALUES (@concertId, @artistId)";
 
-                    DbUtils.AddParameter(cmd, "@concertId", concertArtist.ConcertId);
-                    DbUtils.AddParameter(cmd, "@artistId", concertArtist.ArtistId);
+                    cmd.Parameters.AddWithValue("@concertId", concertArtist.ConcertId);
+                    cmd.Parameters.AddWithValue("@artistId", concertArtist.ArtistId);
 
-                    cmd.ExecuteNonQuery();
+                    int id = (int)cmd.ExecuteScalar();
+
+                    concertArtist.Id = id;
                 }
             }
         }
 
-        public void Delete(ConcertArtist concertArtist)
+        public void Delete(int concertArtistId)
         {
-            using (var conn = Connection)
+            using (SqlConnection conn = Connection)
             {
                 conn.Open();
-                using (var cmd = conn.CreateCommand())
+                using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"DELETE FROM ConcertArtist
-                                        WHERE ConcertId = @concertId AND ArtistId = @artistId";
-                    DbUtils.AddParameter(cmd, "@concertId", concertArtist.ConcertId);
-                    DbUtils.AddParameter(cmd, "@artistId", concertArtist.ArtistId);
+                    cmd.CommandText = @"
+                        DELETE FROM ConcertArtist
+                        WHERE Id = @concertArtistId";
+
+                    cmd.Parameters.AddWithValue("@concertArtistId", concertArtistId);
 
                     cmd.ExecuteNonQuery();
                 }
             }
         }
+
+
     }
 }

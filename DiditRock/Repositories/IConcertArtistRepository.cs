@@ -6,7 +6,8 @@ namespace DiditRock.Repositories
     public interface IConcertArtistRepository
     {
         void Add(ConcertArtist concertArtist);
-        void Delete(ConcertArtist concertArtist);
-        List<ConcertArtist> Get(int concertId);
+        void Delete(int concertArtistId);
+        List<ConcertArtist> GetAllConcertArtistsForConcert(int id);
+        ConcertArtist GetConcertArtistById(int id);
     }
 }
