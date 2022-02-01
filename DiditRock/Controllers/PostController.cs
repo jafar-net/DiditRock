@@ -10,13 +10,13 @@ using DiditRock.Repositories;
 using DiditRock.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace DiditRock.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class PostController : ControllerBase
     {
         private readonly IPostRepository _postRepository;
@@ -30,8 +30,7 @@ namespace DiditRock.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var currentUserId = GetCurrentUserProfile().Id;
-            var posts = _postRepository.GetAll(currentUserId);
+            var posts = _postRepository.GetAll();
 
             return Ok(posts);
         }
@@ -39,15 +38,15 @@ namespace DiditRock.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var currentUserId = GetCurrentUserProfile().Id;
 
-            var post = _postRepository.GetById(id, currentUserId);
+            var post = _postRepository.GetById(id);
             if (post == null)
             {
                 return NotFound();
             }
             return Ok(post);
         }
+
 
         [HttpGet("myPosts")]
         public IActionResult GetLoggedInUserPosts()
@@ -65,18 +64,11 @@ namespace DiditRock.Controllers
 
         [HttpPost]
         public IActionResult Post(Post post)
-        {
-            post.UserProfileId = GetCurrentUserProfile().Id;
-            try
-            {
+        { 
                 _postRepository.Add(post);
                 return CreatedAtAction("Get", new { id = post.Id }, post);
-            }
-            catch
-            {
-                return BadRequest();
 
-            }
+            
         }
 
         [HttpDelete("{id}")]
