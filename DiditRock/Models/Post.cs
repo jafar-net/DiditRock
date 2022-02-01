@@ -15,7 +15,7 @@ namespace DiditRock.Models
         public DateTime CreateDateTime { get; set; }
         public int ConcertId { get; set; }
         public Concert Concert { get; set; }
-        public int UserProfileId { get; set; }
+        public int UserId { get; set; }
         public UserProfile UserProfile { get; set; }
         public bool IsByCurrentUser { get; set; }
 

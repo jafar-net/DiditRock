@@ -2,11 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using DiditRock.Models;
 using DiditRock.Repositories;
+using System.Net;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DiditRock.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ConcertController : ControllerBase
     {
         private readonly IConcertRepository _concertRepository;
