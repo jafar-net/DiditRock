@@ -2,14 +2,7 @@ import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
-import { Posts } from "./Post";
-import { TagList } from "./TagList.js";
-import TagForm from "./TagForm";
-import UserList from "./UserList";
-import UserDetails from "./UserDetails";
-import PostDetails from "./PostDetails";
-import PostForm from "./PostForm";
-import { UpdateUserForm } from "./UserEditForm";
+import Home from "./Home";
 
 export default function ApplicationViews({ isLoggedIn }) {
 
@@ -17,27 +10,7 @@ export default function ApplicationViews({ isLoggedIn }) {
     <main>
       <Switch>
         <Route path="/" exact>
-          Home
-        </Route>
-
-        <Route path="/Post" exact>
-          {isLoggedIn ? <Posts /> : <Redirect to="/login" />}
-        </Route>
-
-        <Route path="/Post/create" exact>
-          {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
-        </Route>
-
-        <Route path="/Post/:id" exact>
-          {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
-        </Route>
-
-        <Route path="/users" exact>
-          {isLoggedIn ? <UserList /> : <Redirect to="/login" />}
-        </Route>
-
-        <Route path="/users/userdetails/:id">
-          {isLoggedIn ? <UserDetails /> : <Redirect to="/login" />}
+          {isLoggedIn ? <Home /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/login">
@@ -46,21 +19,6 @@ export default function ApplicationViews({ isLoggedIn }) {
 
         <Route path="/register">
           <Register />
-        </Route>
-
-        <Route path="/tag" exact>
-          {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
-        </Route>
-
-        <Route path="/tag/create" exact>
-          {isLoggedIn ? <TagForm /> : <Redirect to="/login" />}
-        </Route>
-
-        <Route path="/tag/create/:id" exact>
-          {isLoggedIn ? <TagForm /> : <Redirect to="/login" />}
-        </Route>
-        <Route path="/users/UserTypeEdit/:id">
-          {isLoggedIn ? <UpdateUserForm /> : <Redirect to="/login" />}
         </Route>
       </Switch>
     </main>
