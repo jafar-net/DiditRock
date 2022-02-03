@@ -25,7 +25,7 @@ export const PostList = () => {
         <div className="container">
             <Row>
                 <Col xs={{ size: 2, offset: 1 }}>
-                    <h1>Posts</h1>
+                    <h1>Reviews</h1>
                 </Col>
                 <Col xs={{ size: 2, offset: 0.5 }}>
                     <button
@@ -33,13 +33,13 @@ export const PostList = () => {
                         name="postForm"
                         onClick={handleClickPostForm}
                     >
-                        Create a Post{" "}
+                        Write a Review{" "}
                     </button>
                 </Col>
             </Row>
 
             <div className="row">
-                <p>
+                <div>
                     {posts.map((post) => (
                         <Post
                             post={post}
@@ -48,7 +48,7 @@ export const PostList = () => {
                             getPosts={getPosts}
                         />
                     ))}
-                </p>
+                </div>
             </div>
         </div>
     );

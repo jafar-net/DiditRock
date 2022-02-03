@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Row, Col, Button } from "reactstrap";
-import { Concert } from "./Concert";
-import { getAllConcerts } from "../modules/concertManager";
+import { Venue } from "./Venue";
+import { getAllVenues } from "../modules/venueManager";
 
-export const ConcertList = () => {
-    const [concerts, setConcerts] = useState([]);
+export const VenueList = () => {
+    const [venues, setVenues] = useState([]);
 
-    const getConcerts = () => {
-        getAllConcerts().then((concerts) => setConcerts(concerts));
+    const getVenues = () => {
+        getAllVenues().then((venues) => setVenues(venues));
     };
 
     const history = useHistory();
 
     useEffect(() => {
-        getConcerts();
+        getVenues();
     }, []);
 
     return (
@@ -22,27 +22,27 @@ export const ConcertList = () => {
             <div className="justify-content-center">
                 <Row xs="3">
                     <Col>
-                        <h1>Concerts</h1>
+                        <h1>Venues</h1>
                     </Col>
                     <Col className="mt-3">
                         <Button
-                            className="addConcertButton"
+                            className="addVenueButton"
                             onClick={() => {
-                                history.push("/concert/add");
+                                history.push("/venue/add");
                             }}
                             color="primary"
                         >
-                            Add a Concert
+                            Add a Venue
                         </Button>
                     </Col>
                 </Row>
                 <div>
-                    {concerts.map((concert) => (
-                        <Concert
-                            concert={concert}
-                            key={concert.id}
-                            setConcerts={setConcerts}
-                            getConcerts={getConcerts}
+                    {venues.map((venue) => (
+                        <Venue
+                            venue={venue}
+                            key={venue.id}
+                            setVenues={setVenues}
+                            getVenues={getVenues}
                         />
                     ))}
                 </div>
