@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Home() {
     return (
-        <span style={{
+        <span key="home" style={{
             position: "fixed",
             left: 0,
             right: 0,

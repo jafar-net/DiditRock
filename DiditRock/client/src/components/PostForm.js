@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { addPost } from "../modules/postManager";
 import { useHistory, useParams } from "react-router-dom";
 import { Container, Input } from "reactstrap"
-import { getAllConcert } from "../modules/concertManager";
+import { getAllConcerts } from "../modules/concertManager";
 import { getPostById, updatePost } from "../modules/postManager";
 
 const PostForm = () => {
 
     const history = useHistory();
 
-    // const [Concert, setConcert] = useState([]);
+    const [Concert, setConcert] = useState([]);
 
     const [post, setPost] = useState({
         headline: "",
@@ -26,13 +26,13 @@ const PostForm = () => {
             .then(post => setPost(post));
     }
 
-    // const getConcert = () => {
-    //     getAllConcert().then(Concert => setConcert(Concert));
-    // };
+    const getConcert = () => {
+        getAllConcerts().then(Concert => setConcert(Concert));
+    };
 
-    // useEffect(() => {
-    //     getConcert();
-    // }, []);
+    useEffect(() => {
+        getConcert();
+    }, []);
 
 
     const handleInput = (event) => {
@@ -70,13 +70,13 @@ const PostForm = () => {
                         <label for="name">Date</label>
                         <Input type="datetime-local" class="form-control" id="createDateTime" placeholder="headline" value={post.createDateTime} onChange={handleInput} required />
 
-                        {/* <label for="concert">Concert</label>
+                        <label for="concert">Concert</label>
                         <Input type="select" name="select" value={post.concertId} id="concertId" onChange={handleInput}>
                             <option value={null}>Select a Concert</option>
                             {Concert.map(c => {
                                 return <option value={c.id}>{c.name}</option>
                             })}
-                        </Input> */}
+                        </Input>
                     </div>
                     {postId.id ?
                         <div>

@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Row, Col, Button } from "reactstrap";
-import { Concert } from "./Concert";
-import { getAllConcerts } from "../modules/concertManager";
+import { Artist } from "./Artist";
+import { getAllArtists } from "../modules/artistManager";
 
-export const ConcertList = () => {
-    const [concerts, setConcerts] = useState([]);
+export const ArtistList = () => {
+    const [artists, setArtists] = useState([]);
 
-    const getConcerts = () => {
-        getAllConcerts().then((concerts) => setConcerts(concerts));
+    const getArtists = () => {
+        getAllArtists().then((artists) => setArtists(artists));
     };
 
     const history = useHistory();
 
     useEffect(() => {
-        getConcerts();
+        getArtists();
     }, []);
 
     return (
@@ -22,27 +22,27 @@ export const ConcertList = () => {
             <div className="justify-content-center">
                 <Row xs="3">
                     <Col>
-                        <h1>Concerts</h1>
+                        <h1>Artists</h1>
                     </Col>
                     <Col className="mt-3">
                         <Button
-                            className="addConcertButton"
+                            className="addArtistButton"
                             onClick={() => {
-                                history.push("/concert/add");
+                                history.push("/artist/add");
                             }}
                             color="primary"
                         >
-                            Add a Concert
+                            Add a Artist
                         </Button>
                     </Col>
                 </Row>
                 <div>
-                    {concerts.map((concert) => (
-                        <Concert
-                            concert={concert}
-                            key={concert.id}
-                            setConcerts={setConcerts}
-                            getConcerts={getConcerts}
+                    {artists.map((artist) => (
+                        <Artist
+                            artist={artist}
+                            key={artist.id}
+                            setArtists={setArtists}
+                            getArtists={getArtists}
                         />
                     ))}
                 </div>
