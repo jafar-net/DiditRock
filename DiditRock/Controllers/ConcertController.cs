@@ -22,9 +22,9 @@ namespace DiditRock.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var categories = _concertRepository.GetAll();
+            var concerts = _concertRepository.GetAll();
 
-            return Ok(categories);
+            return Ok(concerts);
         }
 
         [HttpGet("{id}")]

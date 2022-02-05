@@ -15,7 +15,7 @@ namespace DiditRock.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT c.Id, c.Name, c.EncoreSongs, c.VenueId, c.Genre, c.Date, v.Name
+                    cmd.CommandText = @"SELECT c.Id, c.Name, c.EncoreSongs, c.VenueId, c.Genre, c.Date, v.Name AS VenueName
                                         FROM CONCERT c
                                         JOIN VENUE v ON c.VenueId = v.Id
                                         ORDER BY c.Date ASC";
@@ -36,7 +36,7 @@ namespace DiditRock.Repositories
                                 Venue = new Venue()
                                 {
                                     Id = DbUtils.GetInt(reader, "VenueId"),
-                                    Name = DbUtils.GetString(reader, "Name")
+                                    Name = DbUtils.GetString(reader, "VenueName")
                                 }
                             };
                             concerts.Add(concert);
@@ -52,7 +52,7 @@ namespace DiditRock.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT c.Id, c.Name, c.EncoreSongs, c.VenueId, c.Genre, c.Date, v.Name
+                    cmd.CommandText = @"SELECT c.Id, c.Name, c.EncoreSongs, c.VenueId, c.Genre, c.Date, v.Name AS VenueName
                                         FROM CONCERT c
                                         JOIN VENUE v ON c.VenueId = v.Id
                                         ORDER BY c.Date ASC";
@@ -73,7 +73,7 @@ namespace DiditRock.Repositories
                             Venue = new Venue()
                             {
                                 Id = DbUtils.GetInt(reader, "VenueId"),
-                                Name = DbUtils.GetString(reader, "Name")
+                                Name = DbUtils.GetString(reader, "VenueName")
                             }
 
                         };

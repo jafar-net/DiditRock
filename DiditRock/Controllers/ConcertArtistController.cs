@@ -9,7 +9,7 @@ using DiditRock.Repositories;
 
 namespace DiditRock.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ConcertArtistController : Controller

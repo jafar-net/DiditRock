@@ -1,6 +1,6 @@
 const _apiUrl = '/api/artist';
 
-export const getAllArtists = () => {
+export const getArtists = () => {
     return fetch(_apiUrl)
         .then((res) => res.json())
 };
@@ -27,7 +27,7 @@ export const updateArtist = (artist) => {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(artist),
-    }).then(getAllArtists());
+    }).then(getArtists());
 }
 
 export const deleteArtist = (artist) => {

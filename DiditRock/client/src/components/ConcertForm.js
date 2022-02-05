@@ -1,14 +1,24 @@
 import React, { useState } from "react";
 import { addConcert, updateConcert } from "../modules/concertManager";
 import { useHistory, useParams } from "react-router-dom";
-import { Container } from "reactstrap"
+import { Container, Input } from "reactstrap"
 import { getConcertById } from "../modules/concertManager";
+import { getAllVenues } from "../modules/venueManager";
+import { useEffect } from "react";
+import { getArtists } from "../modules/artistManager";
 
 const ConcertForm = () => {
 
+    const history = useHistory();
+
+    const [Venues, setVenues] = useState([]);
+
+    const [Artists, setArtists] = useState([]);
+
     const [concert, setConcert] = useState({
         name: "",
-        venue: "",
+        venueId: "",
+        artistId: "",
         genre: "",
         encoresongs: "",
         date: "",
@@ -20,6 +30,22 @@ const ConcertForm = () => {
         getConcertById(concertId.id)
             .then(concert => setConcert(concert));
     }
+
+    const getVenues = () => {
+        getAllVenues().then(Venues => setVenues(Venues));
+    };
+
+    const getArtist = () => {
+        getArtists().then(Artists => setArtists(Artists));
+    };
+
+    useEffect(() => {
+        getVenues();
+    }, []);
+
+    useEffect(() => {
+        getArtist();
+    }, []);
 
     const handleInput = (event) => {
         const newConcert = { ...concert };
@@ -42,7 +68,6 @@ const ConcertForm = () => {
         history.push("/concert")
     }
 
-    const history = useHistory();
 
     return (
         <Container>
@@ -51,15 +76,26 @@ const ConcertForm = () => {
                 <div className="container-5">
                     <div className="form-group">
                         <label for="name">Name</label>
-                        <input type="name" class="form-control" id="name" placeholder="name" value={concert.name} onChange={handleInput} required />
-                        <label for="name">Venue</label>
-                        <input type="name" class="form-control" id="name" placeholder="name" value={concert.venue?.id} onChange={handleInput} required />
+                        <input type="name" class="form-control" id="name" placeholder="Tour Name" value={concert.name} onChange={handleInput} required />
+                        <label for="venue">Venue</label>
+                        <Input type="select" name="select" value={concert.venueId} id="venueId" onChange={handleInput}>
+                            <option value={null}>Select a Venue</option>
+                            {Venues.map(v => {
+                                return <option value={v.id}>{v.name}</option>
+                            })}
+                        </Input>
+                        <Input type="select" name="select" value={concert.artistId} id="artistId" onChange={handleInput}>
+                            <option value={null}>Select an Artist</option>
+                            {Artists.map(a => {
+                                return <option value={a.id}>{a.name}</option>
+                            })}
+                        </Input>
                         <label for="name">Genre</label>
-                        <input type="name" class="form-control" id="name" placeholder="name" value={concert.genre} onChange={handleInput} required />
+                        <input type="name" class="form-control" id="genre" placeholder="Genre" value={concert.genre} onChange={handleInput} required />
                         <label for="name">Encore Songs</label>
-                        <input type="name" class="form-control" id="name" placeholder="name" value={concert.encoresongs} onChange={handleInput} required />
+                        <input type="name" class="form-control" id="encoresongs" placeholder="Encore Songs" value={concert.encoresongs} onChange={handleInput} required />
                         <label for="name">Date</label>
-                        <input type="name" class="form-control" id="name" placeholder="name" value={concert.Date} onChange={handleInput} required />
+                        <input type="date" class="form-control" id="date" placeholder="Date" value={concert.date} onChange={handleInput} required />
                     </div>
 
                     {concertId.id ?
