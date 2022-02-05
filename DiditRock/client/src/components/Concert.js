@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardBody, Row, Button, Col } from "reactstrap"
 import { deleteConcert, getAllConcerts } from "../modules/concertManager";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 export const Concert = ({ concert, setConcerts }) => {
 
@@ -17,7 +17,7 @@ export const Concert = ({ concert, setConcerts }) => {
         }
     }
 
-    const handleClickEditTag = () => {
+    const handleClickEditConcert = () => {
         history.push(`/concert/edit/${concert.id}`)
     }
 
@@ -25,14 +25,11 @@ export const Concert = ({ concert, setConcerts }) => {
         <Card>
             <CardBody>
                 <Row>
+                    <Link to={`/concertdetails/${concert.id}`}>
+                        <strong> {concert.name}</strong>
+                    </Link>
                     <Col>
-                        <strong>{concert.name}</strong>
-                    </Col>
-                    <Col>
-                        <strong>{concert.venue?.name}</strong>
-                    </Col>
-                    <Col>
-                        <Button onClick={handleClickEditTag} color="primary">Edit</Button>
+                        <Button onClick={handleClickEditConcert} color="primary">Edit</Button>
                     </Col>
                     <Col>
                         <Button onClick={handleClickDeleteConcert} color="danger">Delete</Button>

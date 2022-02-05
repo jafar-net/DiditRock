@@ -23,10 +23,11 @@ export const VenueDetails = () => {
                     {/* <Venue venue={venue} /> */}
 
                     <h2>{venue.name}</h2>
-                    <div>{venue.Location}</div>
-                    <div>{venue.VenueType}</div>
-                    <div>{venue.Capacity} {date}</div><br></br>
-                    <p>{venue.UpcomingShows}</p>
+                    <div>{venue.venueType}</div>
+                    <div>Address: {venue.location}</div>
+                    <div>Capacity: {venue.capacity}</div><br></br>
+                    <div>{date}</div>
+                    <p>{venue.upcomingShows}</p>
 
                 </div>
             </div>

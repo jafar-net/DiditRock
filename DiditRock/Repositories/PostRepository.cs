@@ -140,16 +140,15 @@ namespace DiditRock.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"INSERT INTO Post (Headline, Review, ImageUrl, 
-                                        CreateDateTime, UserId, ConcertId)
+                                        UserId, ConcertId)
                                         OUTPUT Inserted.Id
-                                        VALUES (@headline, @review, @imageurl,                             @createDateTime, @userId, @ConcertId)";
+                                        VALUES (@headline, @review, @imageurl, GETDATE(), @userId, @concertId)";
 
                     DbUtils.AddParameter(cmd, "@headline", post.Headline);
                     DbUtils.AddParameter(cmd, "@review", post.Review);
                     DbUtils.AddParameter(cmd, "@imageurl", post.ImageUrl);
-                    DbUtils.AddParameter(cmd, "@createDateTime", post.CreateDateTime);
                     DbUtils.AddParameter(cmd, "@userId", post.UserId);
-                    DbUtils.AddParameter(cmd, "@ConcertId", post.ConcertId);
+                    DbUtils.AddParameter(cmd, "@concertId", post.ConcertId);
 
                     post.Id = (int)cmd.ExecuteScalar();
                 }

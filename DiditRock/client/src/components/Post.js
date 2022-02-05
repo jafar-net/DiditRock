@@ -28,7 +28,7 @@ export const Post = ({ post, setPosts }) => {
             <CardBody>
                 <Row>
                     <Col>
-                        <Link to={`/post/${post.id}`}>
+                        <Link to={`/postdetails/${post.id}`}>
                             <strong>Title: {post.headline}</strong>
                         </Link>
                     </Col>

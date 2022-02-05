@@ -9,13 +9,12 @@ const PostForm = () => {
 
     const history = useHistory();
 
-    const [Concert, setConcert] = useState([]);
+    const [Concerts, setConcerts] = useState([]);
 
     const [post, setPost] = useState({
         headline: "",
         review: "",
         imageUrl: "",
-        createDateTime: "",
         concertId: "",
     })
 
@@ -26,12 +25,12 @@ const PostForm = () => {
             .then(post => setPost(post));
     }
 
-    const getConcert = () => {
-        getAllConcerts().then(Concert => setConcert(Concert));
+    const getConcerts = () => {
+        getAllConcerts().then(Concerts => setConcerts(Concerts));
     };
 
     useEffect(() => {
-        getConcert();
+        getConcerts();
     }, []);
 
 
@@ -62,18 +61,15 @@ const PostForm = () => {
                         <Input type="name" class="form-control" id="headline" placeholder="headline" value={post.headline} onChange={handleInput} required />
 
                         <label for="content">Review</label>
-                        <Input type="textarea-lg" class="form-control" id="content" placeholder="Content" value={post.content} onChange={handleInput} required />
+                        <Input type="textarea-lg" class="form-control" id="review" placeholder="Review" value={post.review} onChange={handleInput} required />
 
                         <label for="imageUrl">Image URL</label>
                         <Input type="url" class="form-control" id="imageUrl" placeholder="Image URL" value={post.imageUrl} onChange={handleInput} required />
 
-                        <label for="name">Date</label>
-                        <Input type="datetime-local" class="form-control" id="createDateTime" placeholder="headline" value={post.createDateTime} onChange={handleInput} required />
-
                         <label for="concert">Concert</label>
                         <Input type="select" name="select" value={post.concertId} id="concertId" onChange={handleInput}>
                             <option value={null}>Select a Concert</option>
-                            {Concert.map(c => {
+                            {Concerts.map(c => {
                                 return <option value={c.id}>{c.name}</option>
                             })}
                         </Input>

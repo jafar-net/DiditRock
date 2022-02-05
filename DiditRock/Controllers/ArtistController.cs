@@ -9,54 +9,54 @@ namespace DiditRock.Controllers
     [ApiController]
     public class ArtistController : ControllerBase
     {
-        private readonly IArtistRepository _categoryRepository;
-        public ArtistController(IArtistRepository categoryRepository)
+        private readonly IArtistRepository _artistRepository;
+        public ArtistController(IArtistRepository artistRepository)
         {
-            _categoryRepository = categoryRepository;
+            _artistRepository = artistRepository;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            var categories = _categoryRepository.GetAll();
+            var artists = _artistRepository.GetAll();
 
-            return Ok(categories);
+            return Ok(artists);
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var category = _categoryRepository.GetById(id);
-            if (category == null)
+            var artist = _artistRepository.GetById(id);
+            if (artist == null)
             {
                 return NotFound();
             }
-            return Ok(category);
+            return Ok(artist);
         }
 
         [HttpPost]
-        public IActionResult Post(Artist category)
+        public IActionResult Post(Artist artist)
         {
-            _categoryRepository.Add(category);
-            return CreatedAtAction("Get", new { id = category.Id }, category);
+            _artistRepository.Add(artist);
+            return CreatedAtAction("Get", new { id = artist.Id }, artist);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Artist category)
+        public IActionResult Put(int id, Artist artist)
         {
-            if (id != category.Id)
+            if (id != artist.Id)
             {
                 return BadRequest();
             }
 
-            _categoryRepository.Update(category);
+            _artistRepository.Update(artist);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _categoryRepository.Delete(id);
+            _artistRepository.Delete(id);
             return NoContent();
         }
     }

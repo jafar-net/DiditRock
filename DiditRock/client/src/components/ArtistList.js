@@ -2,19 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Row, Col, Button } from "reactstrap";
 import { Artist } from "./Artist";
-import { getAllArtists } from "../modules/artistManager";
+import { getArtists } from "../modules/artistManager";
 
 export const ArtistList = () => {
     const [artists, setArtists] = useState([]);
 
-    const getArtists = () => {
-        getAllArtists().then((artists) => setArtists(artists));
+    const getArtist = () => {
+        getArtists().then((artists) => setArtists(artists));
     };
 
     const history = useHistory();
 
     useEffect(() => {
-        getArtists();
+        getArtist();
     }, []);
 
     return (
@@ -42,7 +42,7 @@ export const ArtistList = () => {
                             artist={artist}
                             key={artist.id}
                             setArtists={setArtists}
-                            getArtists={getArtists}
+                            getArtist={getArtist}
                         />
                     ))}
                 </div>

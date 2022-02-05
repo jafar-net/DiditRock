@@ -11,7 +11,7 @@ import { VenueList } from "./VenueList";
 import ConcertForm from "./ConcertForm";
 import ArtistForm from "./ArtistForm";
 import { ArtistList } from "./ArtistList";
-import { VenueDetails } from "./VenueDetails";
+import { ConcertDetails } from "./ConcertDetails";
 import UserList from "./UserList";
 import UserDetails from "./UserDetails";
 // import ConcertDetails from "./ConcertDetails"
@@ -45,11 +45,11 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <PostList /> : <Redirect to="/login" />}
         </Route>
 
-        <Route path="/post/:id" exact>
+        <Route path="/postdetails/:id">
           {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
         </Route>
 
-        <Route path="/post/create" exact>
+        <Route path="/post/create">
           {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
         </Route>
 
@@ -65,7 +65,7 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <ConcertForm /> : <Redirect to="/login" />}
         </Route>
 
-        <Route path="/concert/edit/:id" exact>
+        <Route path="/concert/edit/:id">
           {isLoggedIn ? <ConcertForm /> : <Redirect to="/login" />}
         </Route>
 
@@ -73,8 +73,8 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <VenueList /> : <Redirect to="/login" />}
         </Route>
 
-        <Route path="/venue/:id" exact>
-          {isLoggedIn ? <VenueDetails /> : <Redirect to="/login" />}
+        <Route path="/concertdetails/:id" exact>
+          {isLoggedIn ? <ConcertDetails /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/artist" exact>
@@ -84,6 +84,11 @@ export default function ApplicationViews({ isLoggedIn }) {
         <Route path="/artist/add" exact>
           {isLoggedIn ? <ArtistForm /> : <Redirect to="/login" />}
         </Route>
+
+        <Route path="/artist/edit/:id">
+          {isLoggedIn ? <ArtistForm /> : <Redirect to="/login" />}
+        </Route>
+
 
       </Switch>
     </main>
