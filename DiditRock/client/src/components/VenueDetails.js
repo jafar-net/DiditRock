@@ -9,8 +9,6 @@ export const VenueDetails = () => {
     const [venue, setVenue] = useState({});
     const { id } = useParams();
 
-    const date = new Date(venue.createDateTime).toDateString()
-
     useEffect(() => {
         getVenueById(id)
             .then(setVenue);
@@ -26,7 +24,6 @@ export const VenueDetails = () => {
                     <div>{venue.venueType}</div>
                     <div>Address: {venue.location}</div>
                     <div>Capacity: {venue.capacity}</div><br></br>
-                    <div>{date}</div>
                     <p>{venue.upcomingShows}</p>
 
                 </div>

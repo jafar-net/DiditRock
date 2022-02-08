@@ -47,24 +47,24 @@ namespace DiditRock.Controllers
             return Ok(post);
         }
 
-
-        [HttpGet("myPosts")]
-        public IActionResult GetLoggedInUserPosts()
-        {
-            var loggedInUser = GetCurrentUserProfile();
-            // var fireBaseUser = _userProfileRepository.GetByFirebaseUserId(loggedInUser);
-            var posts = _postRepository.GetAllPostsForUser(loggedInUser.Id);
-            return Ok(posts);
-        }
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
 
+        [HttpGet("myPosts")]
+        public IActionResult GetLoggedInUserPosts()
+        {
+            var loggedInUser = GetCurrentUserProfile();
+            var posts = _postRepository.GetAllPostsForUser(loggedInUser.Id);
+            return Ok(posts);
+        }
+
         [HttpPost]
         public IActionResult Post(Post post)
         { 
+                
                 _postRepository.Add(post);
                 return CreatedAtAction("Get", new { id = post.Id }, post);
 

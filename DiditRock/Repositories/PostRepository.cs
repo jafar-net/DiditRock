@@ -89,6 +89,7 @@ namespace DiditRock.Repositories
                         FROM Post p
                         JOIN Concert c ON p.ConcertId = c.Id
                         JOIN UserProfile up ON p.UserId = up.Id
+                        WHERE p.Id=@Id
                         ORDER BY p.CreateDateTime ASC";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
@@ -139,7 +140,7 @@ namespace DiditRock.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Post (Headline, Review, ImageUrl, 
+                    cmd.CommandText = @"INSERT INTO Post (Headline, Review, ImageUrl, CreateDateTime, 
                                         UserId, ConcertId)
                                         OUTPUT Inserted.Id
                                         VALUES (@headline, @review, @imageurl, GETDATE(), @userId, @concertId)";
@@ -170,6 +171,39 @@ namespace DiditRock.Repositories
             }
         }
 
+        public List<Post> GetAllUserPosts(string FirebaseUserId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                         SELECT p.Id, p.Headline, p.Review, p.ImageUrl, p.CreateDateTime, p.ConcertId, p.UserId,
+                        c.Name, up.DisplayName, up.FirstName, up.LastName, up.Email, up.CreateDateTime
+                        FROM Post p
+                        JOIN Concert c ON p.ConcertId = c.Id
+                        JOIN UserProfile up ON p.UserId = up.Id
+                        WHERE u.FirebaseUserId = @FirebaseUserId
+                        ORDER BY p.CreateDateTime ASC";
+
+                    DbUtils.AddParameter(cmd, "@FirebaseUserId", FirebaseUserId);
+                    var reader = cmd.ExecuteReader();
+
+                    var posts = new List<Post>();
+
+                    while (reader.Read())
+                    {
+                        posts.Add(NewPostFromReader(reader));
+                    }
+
+                    reader.Close();
+
+                    return posts;
+                }
+            }
+        }
+
         public void Update(Post post)
         {
             using (var conn = Connection)
@@ -195,35 +229,6 @@ namespace DiditRock.Repositories
                 }
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         public List<Post> GetUserPostsById(int userProfileId)
         {
@@ -273,7 +278,7 @@ namespace DiditRock.Repositories
                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                 Headline = reader.GetString(reader.GetOrdinal("Headline")),
                 Review = reader.GetString(reader.GetOrdinal("Review")),
-                ImageUrl = DbUtils.GetString(reader, "HeaderImage"),
+                ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
                 CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
                 
                 ConcertId = reader.GetInt32(reader.GetOrdinal("ConcertId")),

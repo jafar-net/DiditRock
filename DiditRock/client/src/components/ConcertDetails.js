@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useHistory } from "react-router";
 import { getConcertById } from "../modules/concertManager";
 import { Link } from "react-router-dom";
-import { getConcertArtists, updateConcertArtists } from "../modules/concertArtistManager"
+import { getConcertArtistsByConcertId, replaceArtists } from "../modules/concertArtistManager"
 import { getArtists } from "../modules/artistManager";
 import { Row, Col } from "reactstrap";
 
@@ -15,7 +15,7 @@ export const ConcertDetails = () => {
     const [showArtists, setShowArtists] = useState(false);
     const { id } = useParams();
 
-    const date = new Date(concert.publishDateTime).toDateString()
+    const date = new Date(concert.date).toDateString()
 
     const history = useHistory();
 
@@ -24,14 +24,14 @@ export const ConcertDetails = () => {
             .then((concert) => setConcert(concert))
             .then(getArtists()
                 .then((artists) => setArtists(artists)))
-            .then(getConcertArtists(id)
+            .then(getConcertArtistsByConcertId(id)
                 .then((concertArtists) => setConcertArtists(concertArtists)))
     }, [])
 
     const handleCheck = (artistId) => {
         const concertArtist = { artistId: artistId, concertId: id }
-        updateConcertArtists(concertArtist)
-            .then(getConcertArtists(id))
+        replaceArtists(concertArtist)
+            .then(getConcertArtistsByConcertId(id))
             .then(ca => setConcertArtists(ca))
     }
 
@@ -41,16 +41,22 @@ export const ConcertDetails = () => {
         }
         else (setShowArtists(true))
     }
+
+    let ArtistArray = []
+    for (const Artist in concert.artists) {
+        ArtistArray.push(Artist)
+    }
+
+    console.log(concert)
+
     return (
         <div className="container">
             {showArtists ?
                 <>
-                    <div class="artistsModal">
-                        {artists.map(artist =>
-                            <>
-                                <label>{artist.name}</label>
-                                <input name={artist.name} id={artist.id} type="checkbox" checked={concertArtists.some(concertArtist => concertArtist.artistId === artist.id) ? "checked" : false} onChange={(event) => handleCheck(artist.id)} />
-                            </>)}
+                    <div className="artists-style">
+                        {concertArtists.map((artist) => (
+                            <p className="artist">{artist.artist?.name}</p>
+                        ))}
                     </div>
                 </>
                 :
@@ -69,8 +75,14 @@ export const ConcertDetails = () => {
                     <Col>
                         <strong>{concert.venue?.name}</strong>
                     </Col>
-                    <div>Artists : {concertArtists.map(ca => `${ca.artistName} `)}</div>
-
+                    <div>Artists : {ArtistArray.map((a) => a.name)}</div>
+                    <Col>
+                        {concert.genre}
+                    </Col>
+                    <div>{date}</div>
+                    <Col>
+                        Encore Songs: {concert.encoreSongs}
+                    </Col>
                 </div>
             </div>
         </div>

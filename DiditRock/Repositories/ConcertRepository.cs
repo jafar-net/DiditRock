@@ -52,31 +52,46 @@ namespace DiditRock.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT c.Id, c.Name, c.EncoreSongs, c.VenueId, c.Genre, c.Date, v.Name AS VenueName
-                                        FROM CONCERT c
-                                        JOIN VENUE v ON c.VenueId = v.Id
-                                        ORDER BY c.Date ASC";
+                    cmd.CommandText = @"SELECT c.Id, c.Name, c.EncoreSongs, c.VenueId, c.Genre, c.Date, v.Name AS VenueName, ca.Id AS CAId, ca.ArtistId, ca.ConcertId, t.Id AS TId, t.Name
+                      FROM CONCERT c
+                      JOIN VENUE v ON c.VenueId = v.Id
+                      JOIN ConcertArtist ca ON c.Id=ca.ConcertId
+                      JOIN Artist t ON t.Id=ca.ArtistId
+                      WHERE c.Id=@Id";
                     DbUtils.AddParameter(cmd, "@Id", id);
                     var reader = cmd.ExecuteReader();
 
                     Concert concert = null;
-                    if (reader.Read())
+                    while (reader.Read())
                     {
-                        concert = new Concert()
+                        if (concert == null)
                         {
-                            Id = DbUtils.GetInt(reader, "Id"),
-                            Name = DbUtils.GetString(reader, "Name"),
-                            EncoreSongs = DbUtils.GetString(reader, "EncoreSongs"),
-                            Genre = DbUtils.GetString(reader, "Genre"),
-                            Date = DbUtils.GetDateTime(reader, "Date"),
-                            VenueId = DbUtils.GetInt(reader, "VenueId"),
-                            Venue = new Venue()
+                            concert = new Concert()
                             {
-                                Id = DbUtils.GetInt(reader, "VenueId"),
-                                Name = DbUtils.GetString(reader, "VenueName")
-                            }
+                                Id = DbUtils.GetInt(reader, "Id"),
+                                Name = DbUtils.GetString(reader, "Name"),
+                                EncoreSongs = DbUtils.GetString(reader, "EncoreSongs"),
+                                Genre = DbUtils.GetString(reader, "Genre"),
+                                Date = DbUtils.GetDateTime(reader, "Date"),
+                                VenueId = DbUtils.GetInt(reader, "VenueId"),
+                                Venue = new Venue()
+                                {
+                                    Id = DbUtils.GetInt(reader, "VenueId"),
+                                    Name = DbUtils.GetString(reader, "VenueName")
+                                },
+                                Artists = new List<Artist>()
 
+                            };
+                            if (DbUtils.IsNotDbNull(reader, "CAId"))
+                            {
+                                concert.Artists.Add(new Artist()
+                                {
+                                    Id = DbUtils.GetInt(reader, "ArtistId"),
+                                    Name = DbUtils.GetString(reader, "Name")
+                                });
+                            }
                         };
+
                     }
                     reader.Close();
 
@@ -84,7 +99,6 @@ namespace DiditRock.Repositories
                 }
             }
         }
-
         public void Add(Concert concert)
         {
             using (var conn = Connection)

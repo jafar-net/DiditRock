@@ -11,10 +11,12 @@ import { VenueList } from "./VenueList";
 import ConcertForm from "./ConcertForm";
 import ArtistForm from "./ArtistForm";
 import { ArtistList } from "./ArtistList";
-import { ConcertDetails } from "./ConcertDetails";
+import { VenueDetails } from "./VenueDetails";
 import UserList from "./UserList";
 import UserDetails from "./UserDetails";
-// import ConcertDetails from "./ConcertDetails"
+import { ConcertDetails } from "./ConcertDetails";
+// import ManageArtists from "../modules/concertArtistManager";
+
 
 export default function ApplicationViews({ isLoggedIn }) {
 
@@ -57,6 +59,10 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
         </Route>
 
+        {/* <Route path="/myPosts">
+          <MyPosts />
+        </Route> */}
+
         <Route path="/concert" exact>
           {isLoggedIn ? <ConcertList /> : <Redirect to="/login" />}
         </Route>
@@ -73,9 +79,17 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <VenueList /> : <Redirect to="/login" />}
         </Route>
 
+        <Route path="/venue/:id" exact>
+          {isLoggedIn ? <VenueDetails /> : <Redirect to="/login" />}
+        </Route>
+
         <Route path="/concertdetails/:id" exact>
           {isLoggedIn ? <ConcertDetails /> : <Redirect to="/login" />}
         </Route>
+
+        {/* <Route path="/manageArtists/:id">
+          <ManageArtists userparams />
+        </Route> */}
 
         <Route path="/artist" exact>
           {isLoggedIn ? <ArtistList /> : <Redirect to="/login" />}

@@ -1,59 +1,59 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DiditRock.Models;
+using DiditRock.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DiditRock.Models;
-using DiditRock.Repositories;
 
 namespace DiditRock.Controllers
 {
-    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class ConcertArtistController : Controller
+    public class ConcertArtistController : ControllerBase
     {
-        private readonly IConcertArtistRepository _concertArtistRepo;
-        private readonly IConcertRepository _concertRepo;
+        private readonly IConcertRepository _concertRepository;
+        private readonly IConcertArtistRepository _concertArtistRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
 
-        public ConcertArtistController(IConcertArtistRepository concertArtistRepo, IConcertRepository concertRepo)
+
+        public ConcertArtistController(IConcertRepository concertRepository, IConcertArtistRepository concertArtistRepository, IUserProfileRepository userProfileRepository)
         {
-            _concertArtistRepo = concertArtistRepo;
-            _concertRepo = concertRepo;
+            _concertRepository = concertRepository;
+            _concertArtistRepository = concertArtistRepository;
+            _userProfileRepository = userProfileRepository;
         }
 
-        [HttpGet("Manage-Artists/{id}")]
+
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(_concertArtistRepo.GetAllConcertArtistsForConcert(id));
-        }
-
-        [HttpPost("Add")]
-        public IActionResult Concert(ConcertArtist concertArtist)
-        {
-            _concertArtistRepo.Add(concertArtist);
-            return CreatedAtAction("Details", new { id = concertArtist.Id }, concertArtist);
-        }
-
-        [HttpDelete("Delete/{id}")]
-        public IActionResult Delete(int id)
-        {
-            _concertArtistRepo.Delete(id);
-            return NoContent();
-        }
-
-        [HttpGet("GetById/{concertArtistId}")]
-        public IActionResult GetById(int concertArtistId)
-        {
-            var concertArtist = _concertArtistRepo.GetConcertArtistById(concertArtistId);
-            if (concertArtist == null)
-            {
-                return NotFound();
-            }
+            var concertArtist = _concertArtistRepository.GetById(id);
             return Ok(concertArtist);
         }
 
+        [HttpGet("GetConcertArtists/{id}")]
+        public IActionResult GetByConcertId(int id)
+        {
+            var concertArtists = _concertArtistRepository.GetConcertArtistsByConcertId(id);
+            return Ok(concertArtists);
+        }
 
+        // POST api/<ConcertArtistController>
+        [HttpPost]
+        public IActionResult Post(ConcertArtist concertArtist)
+        {
+            _concertArtistRepository.Add(concertArtist);
+            return NoContent();
+        }
+
+        // DELETE api/<ConcertArtistController>/5
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _concertArtistRepository.Delete(id);
+            return NoContent();
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace DiditRock.Models
     public int UserProfileId { get; set; }
     public UserProfile UserProfile { get; set; }
     public bool IsByCurrentUser { get; set; }
+    public List<Artist> Artists { get; set; }
 
 }
 }
