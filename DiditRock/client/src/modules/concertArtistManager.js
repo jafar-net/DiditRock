@@ -23,15 +23,6 @@ export const getConcertArtist = (ConcertArtistId) => {
     }).then((res) => res.json());
 };
 
-export const getConcertArtistsByConcertId = (concertId) => {
-    return fetch(baseUrl + `/GetConcertArtists/${concertId}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    }).then((resp) => resp.json());
-};
-
 export const replaceArtists = (concertArtists) => {
     return fetch(baseUrl + `/ClearConcertArtists/${concertArtists[0].concertId}`, {
         method: "DELETE",

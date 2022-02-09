@@ -3,7 +3,7 @@ import { Card, CardBody, Row, Button, Col } from "reactstrap"
 import { deleteConcert, getAllConcerts } from "../modules/concertManager";
 import { useHistory, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getConcertArtistsByConcertId } from "../modules/concertArtistManager";
+import { getArtistsByConcertId } from "../modules/artistManager";
 
 export const Concert = ({ concert, setConcerts }) => {
     const [concertArtists, setConcertArtists] = useState([]);
@@ -12,7 +12,7 @@ export const Concert = ({ concert, setConcerts }) => {
     const history = useHistory();
 
     const getConcertArtists = () => {
-        getConcertArtistsByConcertId(concert.id).then(artists => setConcertArtists(artists));
+        getArtistsByConcertId(concert.id).then(artists => setConcertArtists(artists));
     }
 
     useEffect(() => {

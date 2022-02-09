@@ -33,13 +33,6 @@ namespace DiditRock.Controllers
             return Ok(concertArtist);
         }
 
-        [HttpGet("GetConcertArtists/{id}")]
-        public IActionResult GetByConcertId(int id)
-        {
-            var concertArtists = _concertArtistRepository.GetConcertArtistsByConcertId(id);
-            return Ok(concertArtists);
-        }
-
         // POST api/<ConcertArtistController>
         [HttpPost]
         public IActionResult Post(ConcertArtist concertArtist)

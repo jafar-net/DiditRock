@@ -3,15 +3,14 @@ import { useParams } from "react-router-dom";
 import { useHistory } from "react-router";
 import { getConcertById } from "../modules/concertManager";
 import { Link } from "react-router-dom";
-import { getConcertArtistsByConcertId, replaceArtists } from "../modules/concertArtistManager"
 import { getArtists } from "../modules/artistManager";
 import { Row, Col } from "reactstrap";
+import { getArtistsByConcertId } from "../modules/artistManager";
 
 
 export const ConcertDetails = () => {
     const [concert, setConcert] = useState({});
     const [artists, setArtists] = useState([]);
-    const [concertArtists, setConcertArtists] = useState([]);
     const [showArtists, setShowArtists] = useState(false);
     const { id } = useParams();
 
@@ -22,18 +21,16 @@ export const ConcertDetails = () => {
     useEffect(() => {
         getConcertById(id)
             .then((concert) => setConcert(concert))
-            .then(getArtists()
+            .then(getArtistsByConcertId(id)
                 .then((artists) => setArtists(artists)))
-            .then(getConcertArtistsByConcertId(id)
-                .then((concertArtists) => setConcertArtists(concertArtists)))
     }, [])
 
-    const handleCheck = (artistId) => {
-        const concertArtist = { artistId: artistId, concertId: id }
-        replaceArtists(concertArtist)
-            .then(getConcertArtistsByConcertId(id))
-            .then(ca => setConcertArtists(ca))
-    }
+    // const handleCheck = (artistId) => {
+    //     const concertArtist = { artistId: artistId, concertId: id }
+    //     replaceArtists(concertArtist)
+    //         .then(getConcertArtistsByConcertId(id))
+    //         .then(ca => setConcertArtists(ca))
+    // }
 
     const handleClickShowArtists = () => {
         if (showArtists) {
@@ -54,7 +51,7 @@ export const ConcertDetails = () => {
             {showArtists ?
                 <>
                     <div className="artists-style">
-                        {concertArtists.map((artist) => (
+                        {artists.map((artist) => (
                             <p className="artist">{artist.artist?.name}</p>
                         ))}
                     </div>
@@ -75,7 +72,7 @@ export const ConcertDetails = () => {
                     <Col>
                         <strong>{concert.venue?.name}</strong>
                     </Col>
-                    <div>Artists : {ArtistArray.map((a) => a.name)}</div>
+                    <div>Artists : {artists.map((a) => <p>{a.name}</p>)}</div>
                     <Col>
                         {concert.genre}
                     </Col>

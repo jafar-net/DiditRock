@@ -45,49 +45,6 @@ namespace DiditRock.Repositories
             }
         }
 
-
-        public List<ConcertArtist> GetConcertArtistsByConcertId(int id)
-        {
-            using (var conn = Connection)
-            {
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"
-                       SELECT ca.Id, ca.ConcertId, ca.ArtistId, t.Name 
-                         FROM ConcertArtist ca
-                              LEFT JOIN Artist t ON t.Id = ca.ArtistId
-                              LEFT JOIN Concert c ON c.id= ca.ConcertId
-                        WHERE c.id = @id";
-
-                    cmd.Parameters.AddWithValue("@id", id);
-                    var reader = cmd.ExecuteReader();
-
-                    List<ConcertArtist> concertArtists = new List<ConcertArtist> { };
-
-                    while (reader.Read())
-                    {
-                        ConcertArtist concertArtist = new ConcertArtist()
-                        {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            ConcertId = reader.GetInt32(reader.GetOrdinal("ConcertId")),
-                            ArtistId = reader.GetInt32(reader.GetOrdinal("ArtistId")),
-                            Artist = new Artist()
-                            {
-                                Name = reader.GetString(reader.GetOrdinal("Name")),
-                            }
-                        };
-
-                        concertArtists.Add(concertArtist);
-                    }
-
-                    reader.Close();
-
-                    return concertArtists;
-                }
-            }
-        }
-
         public void Add(ConcertArtist concertArtist)
         {
             using (SqlConnection conn = Connection)

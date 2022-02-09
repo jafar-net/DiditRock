@@ -35,3 +35,12 @@ export const deleteArtist = (artist) => {
         method: "DELETE"
     })
 }
+
+export const getArtistsByConcertId = (concertId) => {
+    return fetch(_apiUrl + `/GetConcertArtists/${concertId}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }).then((resp) => resp.json());
+};

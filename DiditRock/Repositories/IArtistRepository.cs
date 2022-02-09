@@ -13,5 +13,6 @@ namespace DiditRock.Repositories
         void Delete(int id);
         void Update(Artist tag);
         Artist GetById(int id);
+        List<Artist> GetArtistsByConcertId(int id);
     }
 }

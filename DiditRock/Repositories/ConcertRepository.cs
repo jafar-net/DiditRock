@@ -52,7 +52,7 @@ namespace DiditRock.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT c.Id, c.Name, c.EncoreSongs, c.VenueId, c.Genre, c.Date, v.Name AS VenueName, ca.Id AS CAId, ca.ArtistId, ca.ConcertId, t.Id AS TId, t.Name
+                    cmd.CommandText = @"SELECT c.Id, c.Name, c.EncoreSongs, c.VenueId, c.Genre, c.Date, v.Name AS VenueName, ca.Id AS CAId, ca.ArtistId, ca.ConcertId, t.Id AS TId, t.Name AS ArtistName
                       FROM CONCERT c
                       JOIN VENUE v ON c.VenueId = v.Id
                       JOIN ConcertArtist ca ON c.Id=ca.ConcertId
@@ -82,15 +82,13 @@ namespace DiditRock.Repositories
                                 Artists = new List<Artist>()
 
                             };
-                            if (DbUtils.IsNotDbNull(reader, "CAId"))
-                            {
+                            
+                            };
                                 concert.Artists.Add(new Artist()
                                 {
                                     Id = DbUtils.GetInt(reader, "ArtistId"),
-                                    Name = DbUtils.GetString(reader, "Name")
+                                    Name = DbUtils.GetString(reader, "ArtistName")
                                 });
-                            }
-                        };
 
                     }
                     reader.Close();
