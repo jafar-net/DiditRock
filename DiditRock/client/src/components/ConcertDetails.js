@@ -32,13 +32,6 @@ export const ConcertDetails = () => {
     //         .then(ca => setConcertArtists(ca))
     // }
 
-    const handleClickShowArtists = () => {
-        if (showArtists) {
-            setShowArtists(false)
-        }
-        else (setShowArtists(true))
-    }
-
     let ArtistArray = []
     for (const Artist in concert.artists) {
         ArtistArray.push(Artist)
@@ -62,13 +55,7 @@ export const ConcertDetails = () => {
             </div>
             <div>
                 <div className="col-sm-12 col-lg-6">
-                    <Row>
-                        <h2>{concert.name}</h2>
-                        {concert.isByCurrentUser ?
-                            <button type="submit" class="btn btn-primary mx-3" onClick={event => {
-                                handleClickShowArtists()
-                            }}>{showArtists ? "Close" : "Manage Artists"}</button> : null}
-                    </Row>
+                    <button className="mng-tags-button" onClick={() => { history.push(`/manageartists/${concert.id}`) }}>Manage Artists</button>
                     <Col>
                         <strong>{concert.venue?.name}</strong>
                     </Col>

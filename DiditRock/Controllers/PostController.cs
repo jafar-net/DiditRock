@@ -8,7 +8,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using DiditRock.Repositories;
 using DiditRock.Models;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
@@ -16,7 +15,7 @@ namespace DiditRock.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class PostController : ControllerBase
     {
         private readonly IPostRepository _postRepository;
@@ -30,7 +29,8 @@ namespace DiditRock.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var posts = _postRepository.GetAll();
+            var currentUserId = GetCurrentUserProfile().Id;
+            var posts = _postRepository.GetAll(currentUserId);
 
             return Ok(posts);
         }
@@ -38,8 +38,9 @@ namespace DiditRock.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
+            var currentUserId = GetCurrentUserProfile().Id;
 
-            var post = _postRepository.GetById(id);
+            var post = _postRepository.GetById(id, currentUserId);
             if (post == null)
             {
                 return NotFound();
@@ -50,26 +51,40 @@ namespace DiditRock.Controllers
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+                return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+          
         }
-
         [HttpGet("myPosts")]
-        public IActionResult GetLoggedInUserPosts()
+        public IActionResult GetByUser()
         {
-            var loggedInUser = GetCurrentUserProfile();
-            var posts = _postRepository.GetAllPostsForUser(loggedInUser.Id);
-            return Ok(posts);
+            var user = GetCurrentUserProfile();
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+            else
+            {
+                var posts = _postRepository.GetAllUserPosts(user.FirebaseUserId);
+                return Ok(posts);
+            }
         }
 
         [HttpPost]
         public IActionResult Post(Post post)
-        { 
-                
+        {
+            post.UserId = GetCurrentUserProfile().Id;
+            try
+            {
                 _postRepository.Add(post);
                 return CreatedAtAction("Get", new { id = post.Id }, post);
+            }
+            catch
+            {
+                return BadRequest();
 
-            
+            }
         }
+
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)

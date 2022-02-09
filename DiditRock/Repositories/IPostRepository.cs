@@ -10,11 +10,12 @@ namespace DiditRock.Repositories
     {
         void Add(Post post);
         void Delete(int id);
-        List<Post> GetAll();
-        Post GetById(int id);
+        List<Post> GetAll(int currentUserId);
+        Post GetById(int id, int userId);
         void Update(Post post);
         public List<Post> GetUserPostsById(int userProfileId);
         public List<Post> GetAllPostsForUser(int userProfileId);
+        public List<Post> GetAllUserPosts(string FirebaseUserId);
 
     }
 }

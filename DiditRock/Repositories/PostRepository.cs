@@ -21,7 +21,7 @@ namespace DiditRock.Repositories
             _userprofileRepository = userProfileRepository;
         }
 
-        public List<Post> GetAll()
+        public List<Post> GetAll(int currentUserId)
         {
             using (var conn = Connection)
             {
@@ -65,7 +65,8 @@ namespace DiditRock.Repositories
                                 Email = DbUtils.GetString(reader, "Email"),
                                 CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
             
-                            }
+                            },
+                     IsByCurrentUser = currentUserId == DbUtils.GetInt(reader, "UserId") ? true : false
                         });
 
                     }
@@ -76,7 +77,7 @@ namespace DiditRock.Repositories
             }
         }
 
-        public Post GetById(int id)
+        public Post GetById(int id, int currentUserId)
         {
             using (var conn = Connection)
             {
@@ -140,8 +141,7 @@ namespace DiditRock.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Post (Headline, Review, ImageUrl, CreateDateTime, 
-                                        UserId, ConcertId)
+                    cmd.CommandText = @"INSERT INTO Post (Headline, Review, ImageUrl, CreateDateTime, UserId, ConcertId)
                                         OUTPUT Inserted.Id
                                         VALUES (@headline, @review, @imageurl, GETDATE(), @userId, @concertId)";
 
@@ -179,12 +179,13 @@ namespace DiditRock.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                         SELECT p.Id, p.Headline, p.Review, p.ImageUrl, p.CreateDateTime, p.ConcertId, p.UserId,
-                        c.Name, up.DisplayName, up.FirstName, up.LastName, up.Email, up.CreateDateTime
+                         SELECT p.Id, p.Headline, p.Review, p.ImageUrl, p.CreateDateTime, p.ConcertId, p.UserId AS UserProfileId, up.UserTypeId, ut.Name AS UserTypeName,
+                        c.Name AS ConcertName, up.DisplayName, up.FirstName, up.LastName, up.Email, up.CreateDateTime, up.FirebaseUserId
                         FROM Post p
                         JOIN Concert c ON p.ConcertId = c.Id
                         JOIN UserProfile up ON p.UserId = up.Id
-                        WHERE u.FirebaseUserId = @FirebaseUserId
+                        JOIN UserType ut ON up.UserTypeId = ut.Id
+                        WHERE up.FirebaseUserId = @FirebaseUserId
                         ORDER BY p.CreateDateTime ASC";
 
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", FirebaseUserId);
@@ -238,22 +239,18 @@ namespace DiditRock.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                    SELECT p.Id, p.Headline, p.Review, p.ImageUrl, p.CreateDateTime, p.PublishDateTime, p.IsApproved, p.ConcertId, p.UserProfileId,
-                    c.[Name],
-                    up.DisplayName, up.FirstName, up.LastName, up.Email, up.CreateDateTime, up.ImageUrl
-
-                    FROM Post p
-                    LEFT JOIN Concert c ON p.ConcertId = c.Id
-                    LEFT JOIN UserProfile up ON p.UserProfileId = up.Id
-                    WHERE p.UserProfileId = userProfileId 
-                    AND 
-                    p.IsApproved = 1 
-                    AND 
-                    p.PublishDateTime < SYSDATETIME()
-                    ORDER BY p.PublishDateTime DESC; 
+                   SELECT p.Id, p.Headline, p.Review, p.ImageUrl, p.CreateDateTime, p.ConcertId, p.UserId,
+                    c.Name AS ConcertName,
+                    up.DisplayName, up.FirstName, up.LastName, up.Email, up.CreateDateTime,
+                        up.DisplayName, up.FirstName, up.LastName, up.Email, up.CreateDateTime
+                        FROM Post p
+                        JOIN Concert c ON p.ConcertId = c.Id
+                        JOIN UserProfile up ON p.UserId = up.Id
+                    WHERE up.Id = @id 
+                    ORDER BY p.CreateDateTime DESC;
                     ";
 
-                    cmd.Parameters.AddWithValue("@userProfileId", userProfileId);
+                    cmd.Parameters.AddWithValue("@userId", userProfileId);
                     var reader = cmd.ExecuteReader();
 
                     var posts = new List<Post>(userProfileId);
@@ -314,19 +311,17 @@ namespace DiditRock.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                    SELECT p.Id, p.Headline, p.Review, p.ImageUrl AS HeaderImage, p.CreateDateTime, p.PublishDateTime, p.IsApproved, p.ConcertId, p.UserProfileId,
-                    c.[Name] AS ConcertName,
-                    up.DisplayName, up.FirstName, up.LastName, up.Email, up.CreateDateTime, up.ImageUrl AS AvatarImage, up.UserTypeId,
-                    ut.[Name] AS UserTypeName
+                     SELECT p.Id, p.Headline, p.Review, p.ImageUrl, p.CreateDateTime, p.ConcertId, p.UserId,
+                     c.Name, up.DisplayName, up.FirstName, up.LastName, up.Email, up.CreateDateTime
                     FROM Post p
                     LEFT JOIN Concert c ON p.ConcertId = c.Id
-                    LEFT JOIN UserProfile up ON p.UserProfileId = up.Id
+                    LEFT JOIN UserProfile up ON p.UserId = up.Id
                     LEFT JOIN UserType ut ON up.UserTypeId = ut.Id
-                    WHERE p.UserProfileId = @userProfileId 
+                    WHERE p.UserId = @userId 
                     ORDER BY p.PublishDateTime DESC;                     
                     ";
 
-                    cmd.Parameters.AddWithValue("@userProfileId", userProfileId);
+                    cmd.Parameters.AddWithValue("@userId", userProfileId);
                     var reader = cmd.ExecuteReader();
 
                     var posts = new List<Post>(userProfileId);

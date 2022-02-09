@@ -52,8 +52,10 @@ namespace DiditRock.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO ConcertArtist (ConcertId, ArtistId) OUTPUT INSERTED.Id
-                                                     VALUES (@concertId, @artistId)";
+                    cmd.CommandText = @"INSERT INTO ConcertArtist (ConcertId, ArtistId) 
+                                        OUTPUT INSERTED.Id
+                                        VALUES (@concertId, @concertId)";
+
                     cmd.Parameters.AddWithValue("@concertId", concertArtist.ConcertId);
                     cmd.Parameters.AddWithValue("@artistId", concertArtist.ArtistId);
 

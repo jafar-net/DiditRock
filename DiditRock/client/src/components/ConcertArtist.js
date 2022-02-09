@@ -3,10 +3,10 @@ import { Button } from "reactstrap";
 import { useState, useEffect } from "react";
 
 const ConcertArtist = ({ concertArtist, handleArtistSelected, activeArtistIds }) => {
-    const [isArtistgedToConcert, setIsArtistgedToConcert] = useState(false);
+    const [isArtistOnConcert, setIsArtistOnConcert] = useState(false);
 
     useEffect(() => {
-        setIsArtistgedToConcert(
+        setIsArtistOnConcert(
             activeArtistIds.length > 0 && activeArtistIds.includes(concertArtist.id)
         );
     }, [activeArtistIds]);
@@ -17,9 +17,9 @@ const ConcertArtist = ({ concertArtist, handleArtistSelected, activeArtistIds })
             <Button
                 id={`manageArtists--${concertArtist.id}`}
                 onClick={handleArtistSelected}
-                color={isArtistgedToConcert ? "danger" : "primary"}
+                color={isArtistOnConcert ? "danger" : "primary"}
             >
-                {isArtistgedToConcert ? "Remove" : "Add Artist"}
+                {isArtistOnConcert ? "Remove" : "Add Artist"}
             </Button>
         </div>
     );

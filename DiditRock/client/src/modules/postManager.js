@@ -11,7 +11,7 @@ export const getMyPosts = () => {
 
                 fetch(`${_apiUrl}/myPosts`, {
                     method: "Get",
-                    headers: { authorization: `bearer ${token}` },
+                    headers: { Authorization: `Bearer ${token}` },
                 })
         )
         .then((res) => res.json());

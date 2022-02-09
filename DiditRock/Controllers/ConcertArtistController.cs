@@ -48,5 +48,12 @@ namespace DiditRock.Controllers
             _concertArtistRepository.Delete(id);
             return NoContent();
         }
+
+        [HttpDelete("ClearConcertArtists/{id}")]
+        public IActionResult ClearConcertArtists(int id)
+        {
+            _concertArtistRepository.clearConcertArtistsForConcert(id);
+            return NoContent();
+        }
     }
 }
