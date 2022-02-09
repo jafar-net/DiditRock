@@ -28,7 +28,7 @@ export const VenueList = () => {
                         <Button
                             className="addVenueButton"
                             onClick={() => {
-                                history.push("/venue/add");
+                                history.push("/venue/create");
                             }}
                             color="primary"
                         >

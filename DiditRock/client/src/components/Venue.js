@@ -17,7 +17,7 @@ export const Venue = ({ venue, setVenues }) => {
         }
     }
 
-    const handleClickEditTag = () => {
+    const handleClickEditVenue = () => {
         history.push(`/venue/edit/${venue.id}`)
     }
 
@@ -27,6 +27,12 @@ export const Venue = ({ venue, setVenues }) => {
                 <Link to={`/venue/${venue.id}`}>
                     <strong>{venue.name}</strong>
                 </Link>
+                <Col>
+                    <Button onClick={handleClickDeleteVenue} color="danger">Delete</Button>
+                </Col>
+                <Col>
+                    <Button onClick={handleClickEditVenue} color="primary">Edit</Button>
+                </Col>
             </CardBody>
         </Card>
     )

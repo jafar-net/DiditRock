@@ -11,6 +11,20 @@ export const Concert = ({ concert, setConcerts }) => {
 
     const history = useHistory();
 
+    const handleClickDeleteConcert = () => {
+        const confirm = window.confirm("Are you sure you want to delete this concert?")
+        if (confirm == true) {
+            deleteConcert(concert)
+                .then(getAllConcerts().then(concert => setConcerts(concert)))
+        } else {
+            return;
+        }
+    }
+
+    const handleClickEditConcert = () => {
+        history.push(`/concert/edit/${concert.id}`)
+    }
+
     const getConcertArtists = () => {
         getArtistsByConcertId(concert.id).then(artists => setConcertArtists(artists));
     }
@@ -34,14 +48,12 @@ export const Concert = ({ concert, setConcerts }) => {
                             <strong> {concert.name}</strong>
                         </Link>
                     </Row>
-                    {/* <div className="vidcard-rbox">
-                        <p className="vid-title">
-                            <strong>{concert.title}</strong>
-                        </p>
-
-                        <button className="mng-artists-button" onClick={() => { history.push(`/manageartists/${concert.id}`) }}>Manage Artists</button>
-
-                    </div> */}
+                    <Col>
+                        <Button onClick={handleClickEditConcert} color="primary">Edit</Button>
+                    </Col>
+                    <Col>
+                        <Button onClick={handleClickDeleteConcert} color="danger">Delete</Button>
+                    </Col>
 
                 </CardBody>
             </Card>
