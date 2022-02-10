@@ -53,6 +53,8 @@ const ManageArtists = () => {
         }
     };
 
+    console.log(activeArtistIds);
+
     return (
         <div className="container">
             <h1>Artists</h1>

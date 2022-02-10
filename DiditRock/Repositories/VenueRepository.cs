@@ -31,7 +31,7 @@ namespace DiditRock.Repositories
                                 Location = DbUtils.GetString(reader, "Location"),
                                 UpcomingShows = DbUtils.GetString(reader, "UpcomingShows"),
                                 VenueType = DbUtils.GetString(reader, "VenueType"),
-                                Capacity = DbUtils.GetInt(reader, "Capacity"),
+                                Capacity = DbUtils.GetInt(reader, "Capacity")
                             };
                             venues.Add(venue);
                         }
@@ -63,7 +63,7 @@ namespace DiditRock.Repositories
                                 Location = DbUtils.GetString(reader, "Location"),
                                 UpcomingShows = DbUtils.GetString(reader, "UpcomingShows"),
                                 VenueType = DbUtils.GetString(reader, "VenueType"),
-                                Capacity = DbUtils.GetInt(reader, "Capacity"),
+                                Capacity = DbUtils.GetInt(reader, "Capacity")
                             };
                         }
                     }

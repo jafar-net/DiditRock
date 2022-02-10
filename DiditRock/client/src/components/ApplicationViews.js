@@ -18,6 +18,7 @@ import { ConcertDetails } from "./ConcertDetails";
 import ManageArtists from "./ManageArtists"
 import MyPostList from "./MyPostList";
 import VenueForm from "./VenueForm";
+import { UpdateUserForm } from "./UserEditForm";
 
 export default function ApplicationViews({ isLoggedIn }) {
 
@@ -42,6 +43,10 @@ export default function ApplicationViews({ isLoggedIn }) {
 
         <Route path="/users/userdetails/:id">
           {isLoggedIn ? <UserDetails /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/users/UserTypeEdit/:id">
+          {isLoggedIn ? <UpdateUserForm /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/post" exact>
@@ -80,7 +85,7 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <VenueList /> : <Redirect to="/login" />}
         </Route>
 
-        <Route path="/venue/:id" exact>
+        <Route path="/venuedetails/:id" exact>
           {isLoggedIn ? <VenueDetails /> : <Redirect to="/login" />}
         </Route>
 

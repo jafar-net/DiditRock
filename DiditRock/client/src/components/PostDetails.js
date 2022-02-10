@@ -25,7 +25,6 @@ export const PostDetails = () => {
                     <div>{post.concert?.name}</div>
                     <div>{post.userProfile?.displayName} {date}</div><br></br>
                     <p>{post.review}</p>
-
                 </div>
             </div>
         </div>

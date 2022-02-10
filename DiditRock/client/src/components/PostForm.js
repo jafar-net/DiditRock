@@ -49,6 +49,9 @@ const PostForm = () => {
         updatePost(post)
             .then(history.push("/post"))
     }
+    const handleClickCancel = () => {
+        history.push("/post")
+    }
 
     return (
         <Container>
@@ -86,7 +89,11 @@ const PostForm = () => {
                                 handleClickCreatePost()
                             }}>Create</button>
                         </div>
+
                     }
+                    <button type="cancel" class="btn btn-primary mx-3" onClick={event => {
+                        handleClickCancel()
+                    }}>Cancel</button>
                 </div>
             </div>
         </Container>

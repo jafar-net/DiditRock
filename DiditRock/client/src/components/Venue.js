@@ -24,7 +24,7 @@ export const Venue = ({ venue, setVenues }) => {
     return (
         <Card>
             <CardBody>
-                <Link to={`/venue/${venue.id}`}>
+                <Link to={`/venuedetails/${venue.id}`}>
                     <strong>{venue.name}</strong>
                 </Link>
                 <Col>

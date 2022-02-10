@@ -6,10 +6,12 @@ import { getVenueById } from "../modules/venueManager";
 
 const VenueForm = () => {
 
+    const history = useHistory();
+
     const [venue, setVenue] = useState({
         name: "",
-        type: "",
-        address: "",
+        venueType: "",
+        location: "",
         capacity: "",
         upcomingShows: "",
     })
@@ -30,7 +32,7 @@ const VenueForm = () => {
     const handleClickCreateVenue = () => {
         addVenue(venue)
 
-            .then(history.push("/venue"))
+            .then(history.push("/venue/"))
     }
 
     const handleClickUpdateVenue = () => {
@@ -42,8 +44,6 @@ const VenueForm = () => {
         history.push("/venue")
     }
 
-    const history = useHistory();
-
     return (
         <Container>
             <div className="venueForm">
@@ -52,19 +52,19 @@ const VenueForm = () => {
                     <div className="form-group">
 
                         <label for="name">Name</label>
-                        <Input type="name" class="form-control" id="title" placeholder="Venue Name" value={venue.name} onChange={handleInput} required />
+                        <Input type="name" class="form-control" id="name" placeholder="Venue Name" value={venue.name} onChange={handleInput} required />
 
                         <label for="content">Type</label>
-                        <Input type="textarea-lg" class="form-control" id="content" placeholder="Type of Venue" value={venue.type} onChange={handleInput} required />
+                        <Input type="name-lg" class="form-control" id="venueType" placeholder="Type of Venue" value={venue.venueType} onChange={handleInput} required />
 
                         <label for="imageLocation">Address</label>
-                        <Input type="url" class="form-control" id="imageLocation" placeholder="Address" value={venue.address} onChange={handleInput} required />
+                        <Input type="url" class="form-control" id="location" placeholder="Location" value={venue.location} onChange={handleInput} required />
 
                         <label for="name">Capacity</label>
-                        <Input type="datetime-local" class="form-control" id="capacity" placeholder="Capacity" value={venue.capacity} onChange={handleInput} required />
+                        <Input type="name" class="form-control" id="capacity" placeholder="Capacity" value={venue.capacity} onChange={handleInput} required />
 
                         <label for="category">Upcoming Shows</label>
-                        <Input type="select" name="select" value={venue.upcomingShows} id="categoryId" onChange={handleInput}>
+                        <Input type="textarea" class="form-control" id="upcomingShows" placeholder="Upcoming Shows" value={venue.upcomingShows} onChange={handleInput}>
                         </Input>
                     </div>
                     {venueId.id ?
