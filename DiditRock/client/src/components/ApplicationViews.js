@@ -11,10 +11,14 @@ import { VenueList } from "./VenueList";
 import ConcertForm from "./ConcertForm";
 import ArtistForm from "./ArtistForm";
 import { ArtistList } from "./ArtistList";
-import { ConcertDetails } from "./ConcertDetails";
+import { VenueDetails } from "./VenueDetails";
 import UserList from "./UserList";
 import UserDetails from "./UserDetails";
-// import ConcertDetails from "./ConcertDetails"
+import { ConcertDetails } from "./ConcertDetails";
+import ManageArtists from "./ManageArtists"
+import MyPostList from "./MyPostList";
+import VenueForm from "./VenueForm";
+import { UpdateUserForm } from "./UserEditForm";
 
 export default function ApplicationViews({ isLoggedIn }) {
 
@@ -41,6 +45,10 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <UserDetails /> : <Redirect to="/login" />}
         </Route>
 
+        <Route path="/users/UserTypeEdit/:id">
+          {isLoggedIn ? <UpdateUserForm /> : <Redirect to="/login" />}
+        </Route>
+
         <Route path="/post" exact>
           {isLoggedIn ? <PostList /> : <Redirect to="/login" />}
         </Route>
@@ -55,6 +63,10 @@ export default function ApplicationViews({ isLoggedIn }) {
 
         <Route path="/post/edit/:id" exact>
           {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/myPosts">
+          {isLoggedIn ? <MyPostList /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/concert" exact>
@@ -73,8 +85,24 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <VenueList /> : <Redirect to="/login" />}
         </Route>
 
+        <Route path="/venuedetails/:id" exact>
+          {isLoggedIn ? <VenueDetails /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/venue/create">
+          {isLoggedIn ? <VenueForm /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/venue/edit/:id" exact>
+          {isLoggedIn ? <VenueForm /> : <Redirect to="/login" />}
+        </Route>
+
         <Route path="/concertdetails/:id" exact>
           {isLoggedIn ? <ConcertDetails /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/manageArtists/:id">
+          <ManageArtists userparams />
         </Route>
 
         <Route path="/artist" exact>

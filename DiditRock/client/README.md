@@ -1,70 +1,35 @@
-# Getting Started with Create React App
+# Did it Rock?
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Technologies
 
-## Available Scripts
+- React
+- CSS
+- C#
+- .NET
+- SQL
+- Canva
+- Dbdiagram
+- Github
 
-In the project directory, you can run:
+## Description
 
-### `npm start`
+MCCO is your one stop application for learning about the comics that inspired your favorite MCU films!  Browse the movies by phase and click more info to see the most influential comics for each entry and how they inspired the film.  From there you can add comics to a reading list or follow a link to Marvel's website to learn more about each individual comic!
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Setup: Follow these steps for installing dependencies and starting the app
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. Open the terminal
+2. Type git clone git@github.com:jafar-net/DiditRock.git
+3. Type `cd DiditRock`
+4. Type `Npm install`
+5. While still in the `DiditRock` directory, type `npm start`
+6. Open `DiditRock.sln` in Visual Studio
+7. Run the API
+8. View the app at `http://localhost:3000/`
 
-### `npm test`
+## How to use DiditRock
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Login or Register from the login page using your email and password.  Once logged in you have many options.  You can browse the selection of reviews from the reviews tab, view the concerts that have been added, look at the different venues and artists associated with the concerts, or write your own review.  Before writing a review, make sure the artist, concert, and venue for the show you're reviewing have been added.  Feel free to look around and explore all the different info associated with each tab.  Want to know more about a venue? Look at its detail page! Want to see all your reviews in one place? Head on over to your 'My Reviews' tab.  There's a lot to discover on 'Did it Rock'!
 
-### `npm run build`
+## Documentation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| [dbdiagram](https://dbdiagram.io/d/61f01c977cf3fc0e7c653695) 

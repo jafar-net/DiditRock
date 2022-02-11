@@ -1,0 +1,53 @@
+.navbar {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    background-color: #0f103b;
+}
+
+.logo {
+    width: 195px;
+    /* margin: 50px 80px; */
+}
+
+.logo__img {
+
+    margin-right: 100px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 15px;
+}
+
+.navbar__link {
+    text-decoration: none;
+    list-style-type: none;
+    white-space: nowrap;
+    margin: auto 11px;
+    margin-right: 0px;
+    font-weight: 400;
+    color: #76787e;
+    font-family: 'Titillium Web', sans-serif;
+    font-size: large;
+}
+
+a.navbar__link:hover {
+    color: white;
+}
+
+.nav__flex__bar {
+    display: flex;
+}
+
+.intro{
+    font-weight: 400;
+    color: white; 
+    font-family: 'Titillium Web', sans-serif;
+    font-size: large;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 15px;
+    margin-left: 200px;
+    margin-top: 70px;
+    display: inline-block;
+  
+}

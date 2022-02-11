@@ -30,6 +30,7 @@ export const PostList = () => {
                 <Col xs={{ size: 2, offset: 0.5 }}>
                     <button
                         className="btn-primary"
+                        key={0}
                         name="postForm"
                         onClick={handleClickPostForm}
                     >
@@ -38,7 +39,7 @@ export const PostList = () => {
                 </Col>
             </Row>
 
-            <div className="row">
+            <div key={0} className="row">
                 <div>
                     {posts.map((post) => (
                         <Post
@@ -50,7 +51,7 @@ export const PostList = () => {
                     ))}
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

@@ -75,43 +75,43 @@ const ConcertForm = () => {
                 <h3>Add a Concert</h3>
                 <div className="container-5">
                     <div className="form-group">
-                        <label for="name">Name</label>
-                        <input type="name" class="form-control" id="name" placeholder="Tour Name" value={concert.name} onChange={handleInput} required />
-                        <label for="venue">Venue</label>
+                        <label htmlFor="name">Name</label>
+                        <input type="name" className="form-control" id="name" placeholder="Tour Name" value={concert.name} onChange={handleInput} required />
+                        <label htmlFor="venue">Venue</label>
                         <Input type="select" name="select" value={concert.venueId} id="venueId" onChange={handleInput}>
-                            <option value={null}>Select a Venue</option>
+                            <option key={0} value={null}>Select a Venue</option>
                             {Venues.map(v => {
-                                return <option value={v.id}>{v.name}</option>
+                                return <option key={v.id} value={v.id}>{v.name}</option>
                             })}
                         </Input>
                         <Input type="select" name="select" value={concert.artistId} id="artistId" onChange={handleInput}>
-                            <option value={null}>Select an Artist</option>
+                            <option key={0} value={null}>Select an Artist</option>
                             {Artists.map(a => {
-                                return <option value={a.id}>{a.name}</option>
+                                return <option key={a.id} value={a.id}>{a.name}</option>
                             })}
                         </Input>
-                        <label for="name">Genre</label>
-                        <input type="name" class="form-control" id="genre" placeholder="Genre" value={concert.genre} onChange={handleInput} required />
-                        <label for="name">Encore Songs</label>
-                        <input type="name" class="form-control" id="encoresongs" placeholder="Encore Songs" value={concert.encoresongs} onChange={handleInput} required />
-                        <label for="name">Date</label>
-                        <input type="date" class="form-control" id="date" placeholder="Date" value={concert.date} onChange={handleInput} required />
+                        <label htmlFor="name">Genre</label>
+                        <input type="name" className="form-control" id="genre" placeholder="Genre" value={concert.genre} onChange={handleInput} required />
+                        <label htmlFor="name">Encore Songs</label>
+                        <input type="name" className="form-control" id="encoresongs" placeholder="Encore Songs" value={concert.encoresongs} onChange={handleInput} required />
+                        <label htmlFor="name">Date</label>
+                        <input type="date" className="form-control" id="date" placeholder="Date" value={concert.date} onChange={handleInput} required />
                     </div>
 
                     {concertId.id ?
                         <div>
 
-                            <button type="submit" class="btn btn-primary mr-3" onClick={event => {
+                            <button type="submit" className="btn btn-primary mr-3" onClick={event => {
                                 handleClickUpdateConcert()
                             }}>Update</button>
 
-                            <button type="cancel" class="btn btn-primary mx-3" onClick={event => {
+                            <button type="cancel" className="btn btn-primary mx-3" onClick={event => {
                                 handleClickCancel()
                             }}>Cancel</button>
 
                         </div>
                         :
-                        <button type="submit" class="btn btn-primary" onClick={event => {
+                        <button type="submit" className="btn btn-primary" onClick={event => {
                             handleCreateConcert()
                         }}>Create</button>
                     }

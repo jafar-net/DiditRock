@@ -20,14 +20,11 @@ export const PostDetails = () => {
         <div className="container">
             <div className="row justify-content-center">
                 <div className="col-sm-12 col-lg-6">
-                    {/* <Post post={post} /> */}
-
-                    <img src={post.imageUrl} />
+                    <img src={post.imageUrl} alt="post-img" />
                     <h2>{post.headline}</h2>
                     <div>{post.concert?.name}</div>
                     <div>{post.userProfile?.displayName} {date}</div><br></br>
                     <p>{post.review}</p>
-
                 </div>
             </div>
         </div>

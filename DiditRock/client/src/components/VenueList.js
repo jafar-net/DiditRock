@@ -17,35 +17,35 @@ export const VenueList = () => {
         getVenues();
     }, []);
 
+    const handleClickVenueForm = () => {
+        history.push("/venue/create");
+    };
+
     return (
         <div className="container">
-            <div className="justify-content-center">
-                <Row xs="3">
-                    <Col>
-                        <h1>Venues</h1>
-                    </Col>
-                    <Col className="mt-3">
-                        <Button
-                            className="addVenueButton"
-                            onClick={() => {
-                                history.push("/venue/add");
-                            }}
-                            color="primary"
-                        >
-                            Add a Venue
-                        </Button>
-                    </Col>
-                </Row>
-                <div>
-                    {venues.map((venue) => (
-                        <Venue
-                            venue={venue}
-                            key={venue.id}
-                            setVenues={setVenues}
-                            getVenues={getVenues}
-                        />
-                    ))}
-                </div>
+            <Row>
+                <Col xs={{ size: 2, offset: 1 }}>
+                    <h1>Venues</h1>
+                </Col>
+                <Col xs={{ size: 2, offset: 0.5 }}>
+                    <button
+                        className="btn-primary"
+                        name="venueForm"
+                        onClick={handleClickVenueForm}
+                    >
+                        Add a Venue{" "}
+                    </button>
+                </Col>
+            </Row>
+            <div>
+                {venues.map((venue) => (
+                    <Venue
+                        venue={venue}
+                        key={venue.id}
+                        setVenues={setVenues}
+                        getVenues={getVenues}
+                    />
+                ))}
             </div>
         </div>
     );

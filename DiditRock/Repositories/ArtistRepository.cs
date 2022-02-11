@@ -93,6 +93,43 @@ namespace DiditRock.Repositories
                 }
             }
         }
+
+        public List<Artist> GetArtistsByConcertId(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                       SELECT ca.Id, ca.ConcertId, ca.ArtistId, t.Name 
+                         FROM ConcertArtist ca
+                              LEFT JOIN Artist t ON t.Id = ca.ArtistId
+                              LEFT JOIN Concert c ON c.id= ca.ConcertId
+                        WHERE c.id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+                    var reader = cmd.ExecuteReader();
+
+                    List<Artist> concertArtists = new List<Artist>();
+
+                    while (reader.Read())
+                    {
+                        Artist concertArtist = new Artist()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("ArtistId")),
+                            Name = reader.GetString(reader.GetOrdinal("Name"))
+                        };
+
+                        concertArtists.Add(concertArtist);
+                    }
+
+                    reader.Close();
+
+                    return concertArtists;
+                }
+            }
+        }
         public void Delete(int id)
         {
             using (var conn = Connection)

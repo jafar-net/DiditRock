@@ -14,9 +14,12 @@ namespace DiditRock.Controllers
     public class ConcertController : ControllerBase
     {
         private readonly IConcertRepository _concertRepository;
-        public ConcertController(IConcertRepository concertRepository)
+        private readonly IConcertArtistRepository _concertArtistRepository;
+        public ConcertController(IConcertRepository concertRepository, IConcertArtistRepository concertArtistRepository)
         {
             _concertRepository = concertRepository;
+            _concertArtistRepository = concertArtistRepository;
+
         }
 
         [HttpGet]
@@ -42,6 +45,7 @@ namespace DiditRock.Controllers
         public IActionResult Post(Concert concert)
         {
             _concertRepository.Add(concert);
+            _concertArtistRepository.Add(new ConcertArtist{ ConcertId=concert.Id, ArtistId=(int)concert.ArtistId});
             return CreatedAtAction("Get", new { id = concert.Id }, concert);
         }
 

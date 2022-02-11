@@ -46,24 +46,24 @@ const ArtistForm = () => {
                 <h3>Add a Artist</h3>
                 <div className="container-5">
                     <div className="form-group">
-                        <label for="name">Name</label>
-                        <input type="name" class="form-control" id="name" placeholder="name" value={artist.name} onChange={handleInput} required />
+                        <label htmlFor="name">Name</label>
+                        <input type="name" className="form-control" id="name" placeholder="name" value={artist.name} onChange={handleInput} required />
                     </div>
 
                     {artistId.id ?
                         <div>
 
-                            <button type="submit" class="btn btn-primary mr-3" onClick={event => {
+                            <button type="submit" className="btn btn-primary mr-3" onClick={event => {
                                 handleClickUpdateArtist()
                             }}>Update</button>
 
-                            <button type="cancel" class="btn btn-primary mx-3" onClick={event => {
+                            <button type="cancel" className="btn btn-primary mx-3" onClick={event => {
                                 handleClickCancel()
                             }}>Cancel</button>
 
                         </div>
                         :
-                        <button type="submit" class="btn btn-primary" onClick={event => {
+                        <button type="submit" className="btn btn-primary" onClick={event => {
                             handleCreateArtist()
                         }}>Create</button>
                     }
