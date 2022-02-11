@@ -52,18 +52,20 @@ export const ConcertDetails = () => {
             <div className="row justify-content-center">
             </div>
             <div>
-                <div className="col-sm-12 col-lg-6">
-                    <h1>{concert.name}</h1>
+                <div className="col-sm-12-col-lg-6">
+                    <h1 className="link">{concert.name}</h1>
                     <Col>
                         <strong>{concert.venue?.name}</strong>
                     </Col>
-                    <div>Artists : {artists.map((a) => <p key={a.id}>{a.name}</p>)}</div>
-                    <Col>
+                    <div className="details-body">Artists : {artists.map((a) => <p key={a.id}>{a.name}</p>)}</div>
+                    <Col><div className="details-body">
                         {concert.genre}
+                    </div>
                     </Col>
-                    <div>{date}</div>
+                    <div className="details-body">{date}</div>
                     <Col>
-                        Encore Songs: {concert.encoreSongs}
+                        <div className="details-body">
+                            Encore Songs: {concert.encoreSongs}</div>
                     </Col>
                     <button className="mng-tags-button" onClick={() => { history.push(`/manageartists/${concert.id}`) }}>Manage Artists</button>
                 </div>

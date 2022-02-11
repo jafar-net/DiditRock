@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Row, Col, Button } from "reactstrap";
 import { Concert } from "./Concert";
 import { getAllConcerts } from "../modules/concertManager";
+import "../css/Concert.css"
 
 export const ConcertList = () => {
     const [concerts, setConcerts] = useState([]);
@@ -22,18 +23,7 @@ export const ConcertList = () => {
             <div className="justify-content-center">
                 <Row xs="3">
                     <Col>
-                        <h1>Concerts</h1>
-                    </Col>
-                    <Col className="mt-3">
-                        <Button
-                            className="addConcertButton"
-                            onClick={() => {
-                                history.push("/concert/add");
-                            }}
-                            color="primary"
-                        >
-                            Add a Concert
-                        </Button>
+                        <h1 className="reviews">Concerts</h1>
                     </Col>
                 </Row>
                 <div>
@@ -46,6 +36,18 @@ export const ConcertList = () => {
                         />
                     ))}
                 </div>
+                <br></br>
+                <Col className="mt-3">
+                    <Button
+                        className="addConcertButton"
+                        onClick={() => {
+                            history.push("/concert/add");
+                        }}
+                        color="primary"
+                    >
+                        Add a Concert
+                    </Button>
+                </Col>
             </div>
         </div>
     );

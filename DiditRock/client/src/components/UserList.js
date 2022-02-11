@@ -15,7 +15,7 @@ const UserList = () => {
 
 
     return (
-        <div className="row justify-content-center">
+        <div>
             {users.map((user) => (
                 <User user={user} key={user.id} />
             ))}

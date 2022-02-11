@@ -1,0 +1,10 @@
+body {
+    background-image: url("../images/concert.jpg");
+    background-repeat: no-repeat, repeat;
+    background-size: cover;
+    background-color: aliceblue;
+  }
+
+  h1 {
+      color: #ffec4e
+  }

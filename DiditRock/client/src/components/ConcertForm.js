@@ -72,24 +72,29 @@ const ConcertForm = () => {
     return (
         <Container>
             <div className="concertForm">
-                <h3>Add a Concert</h3>
+                <h3 className="headline">Add a Concert</h3>
                 <div className="container-5">
                     <div className="form-group">
                         <label htmlFor="name">Name</label>
                         <input type="name" className="form-control" id="name" placeholder="Tour Name" value={concert.name} onChange={handleInput} required />
                         <label htmlFor="venue">Venue</label>
+                        <br></br>
                         <Input type="select" name="select" value={concert.venueId} id="venueId" onChange={handleInput}>
                             <option key={0} value={null}>Select a Venue</option>
                             {Venues.map(v => {
                                 return <option key={v.id} value={v.id}>{v.name}</option>
                             })}
                         </Input>
+                        <br></br>
+                        <label htmlFor="artist">Artist</label>
+                        <br></br>
                         <Input type="select" name="select" value={concert.artistId} id="artistId" onChange={handleInput}>
                             <option key={0} value={null}>Select an Artist</option>
                             {Artists.map(a => {
                                 return <option key={a.id} value={a.id}>{a.name}</option>
                             })}
                         </Input>
+                        <br></br>
                         <label htmlFor="name">Genre</label>
                         <input type="name" className="form-control" id="genre" placeholder="Genre" value={concert.genre} onChange={handleInput} required />
                         <label htmlFor="name">Encore Songs</label>

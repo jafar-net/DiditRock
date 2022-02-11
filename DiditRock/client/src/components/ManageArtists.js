@@ -57,15 +57,14 @@ const ManageArtists = () => {
 
     return (
         <div className="container">
-            <h1>Artists</h1>
+            <h1 className="manage">Artists</h1>
             <div className="mt-2">
                 <div>
                     <div>
-                        <p>Artist Name</p>
 
                     </div>
                 </div>
-                <div>
+                <div className="post-text">
                     {artists.map((concertArtist) => (
                         <ConcertArtist
                             concertArtist={concertArtist}

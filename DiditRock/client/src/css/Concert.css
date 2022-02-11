@@ -1,0 +1,19 @@
+.concert-card {
+    background-size: cover;
+  }
+
+  .concert-name {
+      color: white;
+  }
+
+  .details-body {
+      color: white
+  }
+
+  .col-sm-12-col-lg-6 {
+      color: black
+  }
+
+  .link {
+    color: #ffec4e
+  }

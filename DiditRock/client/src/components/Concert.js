@@ -4,6 +4,7 @@ import { deleteConcert, getAllConcerts } from "../modules/concertManager";
 import { useHistory, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getArtistsByConcertId } from "../modules/artistManager";
+import "../css/Concert.css"
 
 export const Concert = ({ concert, setConcerts }) => {
     const [concertArtists, setConcertArtists] = useState([]);
@@ -36,13 +37,13 @@ export const Concert = ({ concert, setConcerts }) => {
 
     {
         return (
-            <Card >
+            <Card>
 
                 <CardBody>
 
-                    <Row>
+                    <Row className="concert-card">
                         <Link to={`/concertdetails/${concert.id}`}>
-                            <strong> {concert.name}</strong>
+                            <strong className="link"> {concert.name}</strong>
                         </Link>
                     </Row>
                     <Col>
