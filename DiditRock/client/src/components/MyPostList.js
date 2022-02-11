@@ -20,7 +20,7 @@ const MyPostList = () => {
             <h1>My Posts</h1>
             <div className="row justify-content-center">
                 {console.log(myPosts)}
-                <p>
+                <p key={0}>
                     {myPosts?.map((post) => (
                         <Post post={post} key={post.Id} />
                     ))}

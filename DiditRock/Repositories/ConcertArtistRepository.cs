@@ -54,7 +54,7 @@ namespace DiditRock.Repositories
                 {
                     cmd.CommandText = @"INSERT INTO ConcertArtist (ConcertId, ArtistId) 
                                         OUTPUT INSERTED.Id
-                                        VALUES (@concertId, @concertId)";
+                                        VALUES (@concertId, @artistId)";
 
                     cmd.Parameters.AddWithValue("@concertId", concertArtist.ConcertId);
                     cmd.Parameters.AddWithValue("@artistId", concertArtist.ArtistId);

@@ -60,43 +60,44 @@ const PostForm = () => {
                 <div className="container-5">
                     <div className="form-group">
 
-                        <label for="name">Title</label>
-                        <Input type="name" class="form-control" id="headline" placeholder="headline" value={post.headline} onChange={handleInput} required />
+                        <label htmlFor="name">Title</label>
+                        <Input key={0} type="name" className="form-control" id="headline" placeholder="headline" value={post.headline} onChange={handleInput} required />
 
-                        <label for="content">Review</label>
-                        <Input type="textarea-lg" class="form-control" id="review" placeholder="Review" value={post.review} onChange={handleInput} required />
+                        <label htmlFor="content">Review</label>
+                        <Input key={1} type="textarea-lg" className="form-control" id="review" placeholder="Review" value={post.review} onChange={handleInput} required />
 
-                        <label for="imageUrl">Image URL</label>
-                        <Input type="url" class="form-control" id="imageUrl" placeholder="Image URL" value={post.imageUrl} onChange={handleInput} required />
+                        <label htmlFor="imageUrl">Image URL</label>
+                        <Input key={2} type="url" className="form-control" id="imageUrl" placeholder="Image URL" value={post.imageUrl} onChange={handleInput} required />
 
-                        <label for="concert">Concert</label>
-                        <Input type="select" name="select" value={post.concertId} id="concertId" onChange={handleInput}>
-                            <option value={null}>Select a Concert</option>
+                        <label htmlFor="concert">Concert</label>
+                        <Input key={3} type="select" name="select" value={post.concertId} id="concertId" onChange={handleInput}>
+                            <option key={4} value={null}>Select a Concert</option>
                             {Concerts.map(c => {
-                                return <option value={c.id}>{c.name}</option>
+                                return <option key={post.id} value={c.id}>{c.name}</option>
                             })}
                         </Input>
-                    </div>
-                    {postId.id ?
-                        <div>
-                            <button type="submit" class="btn btn-primary mr-3" onClick={event => {
-                                handleClickUpdatePost()
-                            }}>Update</button>
-                        </div>
-                        :
-                        <div>
-                            <button type="submit" class="btn btn-primary mr-3" onClick={event => {
-                                handleClickCreatePost()
-                            }}>Create</button>
-                        </div>
+                    </div >
+                    {
+                        postId.id ?
+                            <div>
+                                <button type="submit" className="btn btn-primary mr-3" onClick={event => {
+                                    handleClickUpdatePost()
+                                }}>Update</button>
+                            </div>
+                            :
+                            <div>
+                                <button type="submit" className="btn btn-primary mr-3" onClick={event => {
+                                    handleClickCreatePost()
+                                }}>Create</button>
+                            </div>
 
                     }
-                    <button type="cancel" class="btn btn-primary mx-3" onClick={event => {
+                    < button type="cancel" className="btn btn-primary mx-3" onClick={event => {
                         handleClickCancel()
-                    }}>Cancel</button>
-                </div>
-            </div>
-        </Container>
+                    }}> Cancel</button >
+                </div >
+            </div >
+        </Container >
     )
 }
 

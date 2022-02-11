@@ -117,7 +117,7 @@ namespace DiditRock.Repositories
                     {
                         Artist concertArtist = new Artist()
                         {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Id = reader.GetInt32(reader.GetOrdinal("ArtistId")),
                             Name = reader.GetString(reader.GetOrdinal("Name"))
                         };
 

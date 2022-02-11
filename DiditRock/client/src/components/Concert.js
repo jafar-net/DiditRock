@@ -34,9 +34,6 @@ export const Concert = ({ concert, setConcerts }) => {
     }, []);
 
 
-
-    console.log(concertArtists);
-
     {
         return (
             <Card >

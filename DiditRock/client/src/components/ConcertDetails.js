@@ -37,15 +37,13 @@ export const ConcertDetails = () => {
         ArtistArray.push(Artist)
     }
 
-    console.log(concert)
-
     return (
         <div className="container">
             {showArtists ?
                 <>
                     <div className="artists-style">
                         {artists.map((artist) => (
-                            <p className="artist">{artist.artist?.name}</p>
+                            <p key={artist.id} className="artist">{artist.name}</p>
                         ))}
                     </div>
                 </>
@@ -55,11 +53,11 @@ export const ConcertDetails = () => {
             </div>
             <div>
                 <div className="col-sm-12 col-lg-6">
-                    <button className="mng-tags-button" onClick={() => { history.push(`/manageartists/${concert.id}`) }}>Manage Artists</button>
+                    <h1>{concert.name}</h1>
                     <Col>
                         <strong>{concert.venue?.name}</strong>
                     </Col>
-                    <div>Artists : {artists.map((a) => <p>{a.name}</p>)}</div>
+                    <div>Artists : {artists.map((a) => <p key={a.id}>{a.name}</p>)}</div>
                     <Col>
                         {concert.genre}
                     </Col>
@@ -67,6 +65,7 @@ export const ConcertDetails = () => {
                     <Col>
                         Encore Songs: {concert.encoreSongs}
                     </Col>
+                    <button className="mng-tags-button" onClick={() => { history.push(`/manageartists/${concert.id}`) }}>Manage Artists</button>
                 </div>
             </div>
         </div>

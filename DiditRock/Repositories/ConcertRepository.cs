@@ -55,8 +55,8 @@ namespace DiditRock.Repositories
                     cmd.CommandText = @"SELECT c.Id, c.Name, c.EncoreSongs, c.VenueId, c.Genre, c.Date, v.Name AS VenueName, ca.Id AS CAId, ca.ArtistId, ca.ConcertId, t.Id AS TId, t.Name AS ArtistName
                       FROM CONCERT c
                       JOIN VENUE v ON c.VenueId = v.Id
-                      JOIN ConcertArtist ca ON c.Id=ca.ConcertId
-                      JOIN Artist t ON t.Id=ca.ArtistId
+                      LEFT JOIN ConcertArtist ca ON c.Id=ca.ConcertId
+                      LEFT JOIN Artist t ON t.Id=ca.ArtistId
                       WHERE c.Id=@Id";
                     DbUtils.AddParameter(cmd, "@Id", id);
                     var reader = cmd.ExecuteReader();
@@ -83,13 +83,15 @@ namespace DiditRock.Repositories
 
                             };
                             
-                            };
-                                concert.Artists.Add(new Artist()
-                                {
-                                    Id = DbUtils.GetInt(reader, "ArtistId"),
-                                    Name = DbUtils.GetString(reader, "ArtistName")
-                                });
-
+                        }
+                        if (DbUtils.IsNotDbNull(reader, "ArtistId"))
+                        {
+                            concert.Artists.Add(new Artist()
+                            {
+                                Id = DbUtils.GetInt(reader, "ArtistId"),
+                                Name = DbUtils.GetString(reader, "ArtistName")
+                            });
+                        }
                     }
                     reader.Close();
 

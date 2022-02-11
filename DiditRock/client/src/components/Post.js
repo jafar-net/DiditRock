@@ -35,7 +35,7 @@ export const Post = ({ post, setPosts }) => {
                     <Col>
                         Posted By: {post.userProfile?.displayName}
                     </Col>
-                    <div>{date}</div>
+                    <Col>{date}</Col>
                     <Col>
                         Concert: {post.concert?.name}
                     </Col>

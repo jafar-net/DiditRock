@@ -20,7 +20,7 @@ const ManageArtists = () => {
     useEffect(() => {
         getAllArtists();
         getArtistsByConcertId(id).then((concertArtists) => {
-            setActiveArtistIds(concertArtists.map((vt) => vt.artistId));
+            setActiveArtistIds(concertArtists.map((vt) => vt.id));
         });
     }, []);
 
@@ -33,7 +33,7 @@ const ManageArtists = () => {
             );
         else clearConcertArtists(id);
         setTimeout(() => {
-            history.push(`/`);
+            history.push(`/concert`);
         }, 500);
     };
 
