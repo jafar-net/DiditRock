@@ -6,15 +6,16 @@
 }
 
 .logo {
-    width: 195px;
-    /* margin: 50px 80px; */
+    display: flex;
+    
+    width: 180px;
 }
 
 .logo__img {
 
     margin-right: 100px;
     margin-top: 15px;
-    margin-bottom: 15px;
+    margin-bottom: 118px;
     margin-left: 15px;
 }
 

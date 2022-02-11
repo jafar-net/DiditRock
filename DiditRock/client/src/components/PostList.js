@@ -3,6 +3,7 @@ import { getPosts } from "../modules/postManager";
 import { Post } from "./Post";
 import { Col, Row } from "reactstrap";
 import { useHistory } from "react-router-dom";
+import "../css/Post.css"
 
 export const PostList = () => {
     const [posts, setPosts] = useState([]);
@@ -25,7 +26,7 @@ export const PostList = () => {
         <div className="container">
             <Row>
                 <Col xs={{ size: 2, offset: 1 }}>
-                    <h1>Reviews</h1>
+                    <h1 className="reviews">Reviews</h1>
                 </Col>
                 <Col xs={{ size: 2, offset: 0.5 }}>
                     <button

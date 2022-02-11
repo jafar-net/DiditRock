@@ -25,16 +25,7 @@ export const VenueList = () => {
         <div className="container">
             <Row>
                 <Col xs={{ size: 2, offset: 1 }}>
-                    <h1>Venues</h1>
-                </Col>
-                <Col xs={{ size: 2, offset: 0.5 }}>
-                    <button
-                        className="btn-primary"
-                        name="venueForm"
-                        onClick={handleClickVenueForm}
-                    >
-                        Add a Venue{" "}
-                    </button>
+                    <h1 className="reviews">Venues</h1>
                 </Col>
             </Row>
             <div>
@@ -47,6 +38,17 @@ export const VenueList = () => {
                     />
                 ))}
             </div>
+            <br></br>
+            <Col className="mt-3">
+                <Button
+                    className="addVenueButton"
+                    name="venueForm"
+                    onClick={handleClickVenueForm}
+                    color="primary"
+                >
+                    Add a Venue{" "}
+                </Button>
+            </Col>
         </div>
     );
 };

@@ -43,11 +43,11 @@ const ArtistForm = () => {
     return (
         <Container>
             <div className="artistForm">
-                <h3>Add a Artist</h3>
+                <h3 className="reviews">Add an Artist</h3>
                 <div className="container-5">
                     <div className="form-group">
                         <label htmlFor="name">Name</label>
-                        <input type="name" className="form-control" id="name" placeholder="name" value={artist.name} onChange={handleInput} required />
+                        <input type="name" className="form-control" id="name" placeholder="Name" value={artist.name} onChange={handleInput} required />
                     </div>
 
                     {artistId.id ?

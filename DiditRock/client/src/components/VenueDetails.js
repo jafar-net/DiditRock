@@ -18,12 +18,12 @@ export const VenueDetails = () => {
         <div className="container">
             <div className="row justify-content-center">
                 <div className="col-sm-12 col-lg-6">
-                    <h2>{venue.name}</h2>
-                    <div>{venue.venueType}</div>
-                    <div>Address: {venue.location}</div>
-                    <div>Capacity: {venue.capacity}</div><br></br>
-                    <div>Upcoming Shows</div>
-                    <p>{venue.upcomingShows}</p>
+                    <h2 className="link">{venue.name}</h2>
+                    <strong>{venue.venueType}</strong>
+                    <div className="details-body">Address: {venue.location}</div>
+                    <div className="details-body">Capacity: {venue.capacity}</div><br></br>
+                    <div className="details-body">Upcoming Shows</div>
+                    <p className="details-body">{venue.upcomingShows}</p>
 
                 </div>
             </div>

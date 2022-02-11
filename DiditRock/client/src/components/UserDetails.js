@@ -18,8 +18,8 @@ const UserDetails = () => {
     return (
         <div className="container">
             <div className="row justify-content-center">
-                <div className="col-sm-12 col-lg-6">
-                    <p>Name: {user.firstName}, {user.lastName}</p>
+                <div className="user-info">
+                    <p>Name: {user.lastName}, {user.firstName}</p>
                     <p>Email: {user.email}</p>
                     <p>Display name: {user.displayName}</p>
                     <p>Creation Date: {user.createDateTime}</p>

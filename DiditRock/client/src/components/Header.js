@@ -12,6 +12,7 @@ import {
 import { logout } from '../modules/authManager';
 import { getPosts } from '../modules/postManager';
 import '../css/NavBar.css';
+import logo from "../images/logo.png"
 
 export default function Header({ isLoggedIn }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -19,22 +20,18 @@ export default function Header({ isLoggedIn }) {
 
 
 
+
     return (
         <div>
             <Navbar light expand="md">
-                <NavbarBrand tag={RRNavLink} to="/">Did It Rock?</NavbarBrand>
                 <Nav className="navbar" navbar>
                     {/* When isLoggedIn === true, we will render the Home link */}
                     {isLoggedIn && (
                         <>
+                            <NavbarBrand tag={RRNavLink} to="/home" className="logo__img"><img className="logo" src={logo} alt="logo"></img></NavbarBrand>
                             <NavItem className="navbar__link">
-                                <NavLink tag={RRNavLink} to="/">
+                                <NavLink tag={RRNavLink} to="/home">
                                     Home
-                                </NavLink>
-                            </NavItem>
-                            <NavItem className="navbar__link">
-                                <NavLink tag={RRNavLink} to="/concert">
-                                    Concerts
                                 </NavLink>
                             </NavItem>
                             <NavItem className="navbar__link">
@@ -43,8 +40,8 @@ export default function Header({ isLoggedIn }) {
                                 </NavLink>
                             </NavItem>
                             <NavItem className="navbar__link">
-                                <NavLink tag={RRNavLink} to="/myposts">
-                                    My Reviews
+                                <NavLink tag={RRNavLink} to="/concert">
+                                    Concerts
                                 </NavLink>
                             </NavItem>
                             <NavItem className="navbar__link">
@@ -55,6 +52,11 @@ export default function Header({ isLoggedIn }) {
                             <NavItem className="navbar__link">
                                 <NavLink tag={RRNavLink} to="/artist">
                                     Artists
+                                </NavLink>
+                            </NavItem>
+                            <NavItem className="navbar__link">
+                                <NavLink tag={RRNavLink} to="/myposts">
+                                    My Reviews
                                 </NavLink>
                             </NavItem>
                             <NavItem className="navbar__link">

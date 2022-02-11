@@ -56,7 +56,7 @@ const PostForm = () => {
     return (
         <Container>
             <div className="postForm">
-                <h3>Write a Review</h3>
+                <h3 className="reviews">Write a Review</h3>
                 <div className="container-5">
                     <div className="form-group">
 
@@ -70,6 +70,7 @@ const PostForm = () => {
                         <Input key={2} type="url" className="form-control" id="imageUrl" placeholder="Image URL" value={post.imageUrl} onChange={handleInput} required />
 
                         <label htmlFor="concert">Concert</label>
+                        <br></br>
                         <Input key={3} type="select" name="select" value={post.concertId} id="concertId" onChange={handleInput}>
                             <option key={4} value={null}>Select a Concert</option>
                             {Concerts.map(c => {

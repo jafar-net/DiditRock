@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Card, CardBody, Col, Row, Button } from "reactstrap"
 import { deletePost, getPosts } from "../modules/postManager";
+import "../css/Post.css"
 
 export const Post = ({ post, setPosts }) => {
 
@@ -28,15 +29,16 @@ export const Post = ({ post, setPosts }) => {
             <CardBody>
                 <Row>
                     <Col>
+                        <br></br>
                         <Link to={`/postdetails/${post.id}`}>
-                            <strong>Title: {post.headline}</strong>
+                            <strong className="headline">{post.headline}</strong>
                         </Link>
                     </Col>
-                    <Col>
+                    <Col className="post-text">
                         Posted By: {post.userProfile?.displayName}
                     </Col>
-                    <Col>{date}</Col>
-                    <Col>
+                    <Col className="post-text">{date}</Col>
+                    <Col className="post-text">
                         Concert: {post.concert?.name}
                     </Col>
                     {post.isByCurrentUser == true ?

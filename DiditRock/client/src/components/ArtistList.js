@@ -22,18 +22,7 @@ export const ArtistList = () => {
             <div className="justify-content-center">
                 <Row xs="3">
                     <Col>
-                        <h1>Artists</h1>
-                    </Col>
-                    <Col className="mt-3">
-                        <Button
-                            className="addArtistButton"
-                            onClick={() => {
-                                history.push("/artist/add");
-                            }}
-                            color="primary"
-                        >
-                            Add a Artist
-                        </Button>
+                        <h1 className="reviews">Artists</h1>
                     </Col>
                 </Row>
                 <div>
@@ -46,6 +35,18 @@ export const ArtistList = () => {
                         />
                     ))}
                 </div>
+                <br></br>
+                <Col className="mt-3">
+                    <Button
+                        className="addArtistButton"
+                        onClick={() => {
+                            history.push("/artist/add");
+                        }}
+                        color="primary"
+                    >
+                        Add a Artist
+                    </Button>
+                </Col>
             </div>
         </div>
     );

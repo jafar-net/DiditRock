@@ -25,7 +25,7 @@ export const Venue = ({ venue, setVenues }) => {
         <Card>
             <CardBody>
                 <Link to={`/venuedetails/${venue.id}`}>
-                    <strong>{venue.name}</strong>
+                    <strong className="link">{venue.name}</strong>
                 </Link>
                 <Col>
                     <Button onClick={handleClickDeleteVenue} color="danger">Delete</Button>

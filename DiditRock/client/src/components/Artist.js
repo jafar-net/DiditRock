@@ -26,7 +26,7 @@ export const Artist = ({ artist, setArtists }) => {
             <CardBody>
                 <Row>
                     <Col>
-                        <strong>{artist.name}</strong>
+                        <strong className="link">{artist.name}</strong>
                     </Col>
                     <Col>
                         <Button onClick={handleClickEditArtist} color="primary">Edit</Button>

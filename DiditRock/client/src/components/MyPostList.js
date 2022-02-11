@@ -17,7 +17,7 @@ const MyPostList = () => {
 
     return (
         <div className="container">
-            <h1>My Posts</h1>
+            <h1 className="reviews">My Posts</h1>
             <div className="row justify-content-center">
                 {console.log(myPosts)}
                 <p key={0}>
